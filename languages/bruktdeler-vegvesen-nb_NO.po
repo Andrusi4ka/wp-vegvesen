@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Vegvesen 1.4.1\n"
+"Project-Id-Version: WP Vegvesen 1.4.2\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1355,3 +1355,23 @@ msgstr "Statens vegvesen svarer at dagskvoten for API-nøkkelen er brukt opp. Kj
 #: includes\class-bv-admin.php
 msgid "The daily limit of requests to Vegvesen has been reached. Vehicle searches on the site do not work until tomorrow; cached vehicles are still shown. If this is normal traffic, raise the limit."
 msgstr "Den daglige grensen for forespørsler til Vegvesen er nådd. Kjøretøysøk på nettstedet virker ikke før i morgen; mellomlagrede kjøretøy vises fortsatt. Er dette vanlig trafikk, øk grensen."
+
+#: includes\class-bv-whats-new.php
+msgid "WP Vegvesen has been updated to %s."
+msgstr "WP Vegvesen er oppdatert til %s."
+
+#: includes\class-bv-whats-new.php
+msgid "See what's new"
+msgstr "Se hva som er nytt"
+
+#: includes\class-bv-whats-new.php
+msgid "What's new in WP Vegvesen %s"
+msgstr "Nytt i WP Vegvesen %s"
+
+#: includes\class-bv-whats-new.php
+msgid "All releases"
+msgstr "Alle versjoner"
+
+#: includes\class-bv-whats-new.php
+msgid "Got it"
+msgstr "Skjønner"

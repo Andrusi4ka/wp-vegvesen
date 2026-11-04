@@ -1,6 +1,6 @@
 <?php
 return array (
-  'project-id-version' => 'WP Vegvesen 1.4.1',
+  'project-id-version' => 'WP Vegvesen 1.4.2',
   'mime-version' => '1.0',
   'content-type' => 'text/plain; charset=UTF-8',
   'content-transfer-encoding' => '8bit',
@@ -346,5 +346,10 @@ return array (
     'Requests today' => 'Forespørsler i dag',
     'Statens vegvesen answers that the daily quota of the API key is used up. Vehicle searches on the site do not work until tomorrow; cached vehicles are still shown.' => 'Statens vegvesen svarer at dagskvoten for API-nøkkelen er brukt opp. Kjøretøysøk på nettstedet virker ikke før i morgen; mellomlagrede kjøretøy vises fortsatt.',
     'The daily limit of requests to Vegvesen has been reached. Vehicle searches on the site do not work until tomorrow; cached vehicles are still shown. If this is normal traffic, raise the limit.' => 'Den daglige grensen for forespørsler til Vegvesen er nådd. Kjøretøysøk på nettstedet virker ikke før i morgen; mellomlagrede kjøretøy vises fortsatt. Er dette vanlig trafikk, øk grensen.',
+    'WP Vegvesen has been updated to %s.' => 'WP Vegvesen er oppdatert til %s.',
+    'See what\'s new' => 'Se hva som er nytt',
+    'What\'s new in WP Vegvesen %s' => 'Nytt i WP Vegvesen %s',
+    'All releases' => 'Alle versjoner',
+    'Got it' => 'Skjønner',
   ),
 );

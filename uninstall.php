@@ -34,6 +34,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 		delete_option( 'bv_field_icons' ); // Icons chosen per field on the Variables page.
 		delete_option( 'bv_day_count' );   // Requests to Vegvesen today (daily limit).
 		delete_option( 'bv_quota_alert' ); // "Searches stopped today" notice.
+		delete_option( 'bv_version' );      // "What's new": the version last run
+		delete_option( 'bv_updated_from' ); // and the one updated from.
 
 		// Cached Vegvesen answers (bv_<md5>), search limits per IP (bv_rl_<md5>) and brand logos (bv_logo_<md5>).
 		// The exact key shapes, so other plugins' transients that start with "bv_" are left alone.
@@ -54,6 +56,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	} else {
 		$uninstall_site();
 	}
+
+	// "What's new": the version each user has seen (users are shared by a network's sites).
+	delete_metadata( 'user', 0, 'bv_seen_version', '', true );
 
 	// Last update check (Plugin Update Checker).
 	delete_site_option( 'external_updates-wp-vegvesen' );

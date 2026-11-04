@@ -3,7 +3,7 @@ Tags: vegvesen, vehicle, registration number, car parts, wpbakery
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Vegvesen has no photos. Upload a photo to the media library and give it the titl
 Yes. Put an SVG file in `wp-content/uploads/bv-bodies/`, named after the body type (`sedan.svg`, `hatchback.svg`, `estate.svg`, `coupe.svg`, `convertible.svg`, `mpv.svg`, `pickup.svg`, `pickup-double.svg`, `van.svg`, `truck.svg`, `tractor.svg`, `bus.svg`, `camper.svg`, `trailer.svg`). It replaces the bundled one and survives plugin updates.
 
 == Changelog ==
+
+= 1.4.2 =
+* "What's new" after an update: a window with the changes since the version you used before opens on the WP Vegvesen screens, and the Dashboard shows a notice that opens it. Once for each user who can see WP Vegvesen; not after a first install.
 
 = 1.4.1 =
 * Settings: sections in boxes with a short overview on top (API key, live or demo data, result page, requests today); the API address is folded under "Advanced"; the Save button stays in view; WordPress's colour picker for the primary colour.
