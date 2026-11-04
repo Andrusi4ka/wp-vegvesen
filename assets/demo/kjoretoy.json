@@ -1,0 +1,63 @@
+{
+  "kjoretoydataListe": [
+    {
+      "kjoretoyId": {
+        "kjennemerke": "AB12345",
+        "understellsnummer": "WVWZZZ3CZJE123456"
+      },
+      "forstegangsregistrering": {
+        "registrertForstegangNorgeDato": "2018-04-12"
+      },
+      "periodiskKjoretoyKontroll": {
+        "kontrollfrist": "2027-03-21",
+        "sistGodkjent": "2025-03-21"
+      },
+      "godkjenning": {
+        "tekniskGodkjenning": {
+          "kjoretoyklassifisering": {
+            "tekniskKode": { "kodeVerdi": "M1", "kodeNavn": "Personbil" }
+          },
+          "tekniskeData": {
+            "generelt": {
+              "merke": [ { "merke": "VOLKSWAGEN", "merkeKode": "5750" } ],
+              "handelsbetegnelse": [ "PASSAT" ],
+              "typebetegnelse": "PASSAT VARIANT"
+            },
+            "karosseriOgLasteplan": {
+              "karosseritype": { "kodeVerdi": "AC", "kodeBeskrivelse": "Stasjonsvogn" },
+              "rFarge": [ { "kodeVerdi": "08", "kodeNavn": "Grå" } ]
+            },
+            "persontall": { "sitteplasserTotalt": 5 },
+            "motorOgDrivverk": {
+              "motor": [
+                {
+                  "slagvolum": 1968,
+                  "drivstoff": [
+                    { "drivstoffKode": { "kodeVerdi": "2", "kodeBeskrivelse": "Diesel" }, "maksNettoEffekt": 140 }
+                  ]
+                }
+              ],
+              "girkassetype": { "kodeVerdi": "A", "kodeBeskrivelse": "Automat" }
+            },
+            "vekter": {
+              "egenvekt": 1615,
+              "tillattTotalvekt": 2180,
+              "tillattTilhengervektMedBrems": 2000
+            },
+            "dimensjoner": { "lengde": 4775, "bredde": 1832, "hoyde": 1516 },
+            "miljodata": {
+              "euroKlasse": { "kodeVerdi": "6", "kodeBeskrivelse": "Euro 6" },
+              "miljoOgdrivstoffGruppe": [
+                {
+                  "forbrukOgUtslipp": [
+                    { "co2BlandetKjoring": 118, "forbrukBlandetKjoring": 4.5 }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1051 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bruktdeler – Vegvesen 1.1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: bruktdeler-vegvesen\n"
+
+#: plugin header
+msgid "Vehicle lookup in Statens vegvesen by registration number or VIN. Provides variables (shortcodes and tokens), ready-made blocks and WPBakery elements that follow the theme's styling."
+msgstr ""
+
+#: plugin header
+msgid "Bruktdeler – Vegvesen Vehicle Lookup"
+msgstr ""
+
+#: includes\class-bv-render.php
+msgid "Settings"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Variables"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Vegvesen – settings"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Demo mode is on."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The site shows sample data (Volkswagen Passat) for any number. The number XX00000 simulates \"not found\". To get real data, add an API key and turn off demo mode."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Statens vegvesen API"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "API key"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The key is set with the <code>BV_API_KEY</code> constant in <code>wp-config.php</code>."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "•••••••• (saved)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "remove"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "It is safer to set the key in <code>wp-config.php</code>: <code>define( 'BV_API_KEY', 'your-key' );</code> – then it is not stored in the database."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Demo mode"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Show sample data instead of calling Vegvesen"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "API URL"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The <code>?kjennemerke=</code> or <code>?understellsnummer=</code> parameter is added automatically."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Authorization header"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Sent as: %s"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Cache, hours"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "How long to keep the response for one number. Saves the daily request quota."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Search limit"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "new requests per minute from one IP address (0 = no limit)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Page and appearance"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Result page"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "— not selected —"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "View"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Edit page"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The search field leads here. The address looks like %s. The page can be built in any page builder using the variables."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Preview number for editors"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Inside page builders (WPBakery front-end editor, Elementor, Customizer) the variables show this vehicle when there is no number in the address, so you design with real data. On the normal site you see the same as visitors."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "To see the preview on the site, add <code>?bv_preview=1</code> to the address."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Inspection warning"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "days before the deadline – the row turns yellow"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Primary colour"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "empty = theme colour"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Empty uses the theme's primary colour (WoodMart: Theme Settings → Colors). Or enter your own, e.g. <code>#0b6e3a</code>."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Save"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Search field. Attributes: layout=\"hero|compact\", title, subtitle, image (ID or URL), placeholder, button, max_width"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The whole vehicle card. Attributes: tiles, general, dates, miljo (field lists), print=\"0\", image=\"0\""
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Number plate. size=\"small|large\""
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "\"Vehicle found\" + last updated date. found=\"your text\", updated=\"0\""
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Vehicle picture: a media library image titled \"Make Model\" (e.g. \"Volkswagen Passat\"), otherwise a silhouette"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Print button. label=\"your text\""
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Tiles with icons. columns=\"4\""
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Table. highlight=\"neste_eu\", labels=\"merke:Brand\", hide_empty=\"0\". Icons: %s"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "The field's label (e.g. Kerb weight)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "text after the value"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "text before the value"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "add the standard unit (kg, kW, g/km…)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "date format (month names follow the site language)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "number without thousands separator (1615 instead of 1 615)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "number of decimals"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "what to show when there is no data"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "show a specific vehicle instead of the one in the address"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "show if the field has a value"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "show if the field is empty"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "the value is one of the list"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "the value is not"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "search status: funnet (found), ikke_funnet (not found), ugyldig (invalid), feil (error), ingen (no number entered)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Variables for pages"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "On the site, variables are replaced with data for the vehicle whose number is in the page address. There are two ways to insert them:"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "<strong>Shortcode <code>[bv field=\"merke\"]</code></strong> – in large text fields with an editor: Text Block, Info Box content, HTML Blocks, Gutenberg."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "<strong>Token <code>{bv:merke}</code></strong> – in one-line fields where a shortcode does not work: WoodMart Title, Info Box title, button text, List items. Also works in text blocks."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Variants: <code>{bv:egenvekt|unit}</code> → with unit, <code>{bv:neste_eu|j M Y}</code> → custom date format, <code>{bv:label:egenvekt}</code> → field label."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Test number:"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "skip cache"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Check"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "demo"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Field values"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Shortcode (text blocks)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Token (titles, buttons, lists)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Description"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Example"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Click to copy"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Attributes for <code>[bv]</code>"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Example:"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Conditions"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Show or hide elements"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Add one of these classes to \"Extra class name\" of any row, column or element (e.g. WoodMart List). Works for whole sections, unlike [bv_if], which only works inside one text field."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "visible only when a vehicle is found"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "visible only when the search found nothing or failed"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "visible only before a search (no number in the address)"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "visible after any search, found or not"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "In the WPBakery front-end editor all elements stay visible, so they can be edited."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Ready-made blocks"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Also available in WPBakery (category <strong>Vegvesen</strong>) with settings and a Design Options tab."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Design"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Colours and fonts come from the theme (WoodMart: Theme Settings). You can change them in the theme's Custom CSS, for example:"
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Templates can be overridden by copying a file from <code>wp-content/plugins/bruktdeler-vegvesen/templates/</code> to <code>wp-content/themes/your-child-theme/bruktdeler-vegvesen/</code>."
+msgstr ""
+
+#: includes\class-bv-admin.php
+msgid "Raw API response (for checking fields)"
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "Invalid registration number or VIN."
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "Too many searches. Please wait a moment and try again."
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "Could not contact Statens vegvesen: %s"
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "The API key was rejected (401). Check the key and the authorization header."
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "Access denied (403). Check the API key."
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "The daily quota at Statens vegvesen has been used up (429)."
+msgstr ""
+
+#: includes\class-bv-api.php
+msgid "Error from Statens vegvesen (HTTP %d)."
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "General"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Engine"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Weight and dimensions"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Dates"
+msgstr ""
+
+#: templates\card.php
+msgid "Environment and consumption"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "System"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "hp"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Registration number"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Number plate as returned by the API"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Number plate with a space (AB 12345)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "VIN"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Vehicle identification number"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Make"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Manufacturer"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Model"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Model (trade name)"
+msgstr ""
+
+#: includes\class-bv-settings.php
+msgid "Vehicle"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Make + model"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Variant"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Variant / type designation"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Body type"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Body type (e.g. estate)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Vehicle category"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Technical code (M1, N1…)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Category name + code, e.g. Personbil (M1)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Colour"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Colour code"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "HEX colour for the swatch (calculated)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Seats"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Number of seats"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Fuel"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Fuel (hybrids: Bensin / Elektrisk)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power (kW)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power in kW"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power (hp)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power in hp (kW × 1.36)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Power combined: 140 kW (190 hp)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Engine displacement"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Engine displacement, cm³"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Transmission"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Gearbox type"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Hybrid category"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Kerb weight"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Kerb weight, kg"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Gross vehicle weight"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Maximum permitted weight, kg"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Towing capacity (braked)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Braked trailer weight, kg"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Length"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Length, mm"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Width"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Width, mm"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Height"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Height, mm"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "First registered"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Date of first registration in Norway"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Year of registration"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Year of first registration"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Last approved EU inspection"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Last periodic inspection"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Next EU inspection"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Next periodic inspection deadline"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Inspection status"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Inspection status code: ok / snart / utlopt"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "EU inspection"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Inspection status as text"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "CO₂ emissions"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "CO₂ emissions, g/km"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Fuel consumption (combined)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Fuel consumption, l/100 km"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Energy consumption"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Electric energy consumption, Wh/km (electric / hybrid)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Electric range"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Range on electricity, km"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Emission class"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Euro emission class (Euro 6)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Last updated"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "When the data was fetched from Vegvesen"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Status"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Search status: funnet / ikke_funnet / ugyldig / feil / ingen"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "%1$s kW (%2$s hp)"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Overdue"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Due soon"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "Approved"
+msgstr ""
+
+#: includes\class-bv-fields.php
+msgid "d/m/Y"
+msgstr ""
+
+#: includes\class-bv-render.php
+msgid "Demo mode: sample data, not from Vegvesen."
+msgstr ""
+
+#: includes\class-bv-render.php
+msgid "Editor preview: %s"
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Search for a vehicle"
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Get technical information about a vehicle from Statens vegvesen."
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Registration number (e.g. AB12345)"
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Search"
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Vehicle found"
+msgstr ""
+
+#: includes\class-bv-shortcodes.php
+msgid "Print"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Extra CSS class"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Design Options"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Yes"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "No"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Comma separated. Field list: Vegvesen → Variables."
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Vehicle search"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Search field for registration number / VIN"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Layout"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Field only"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Banner (hero)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Compact (for header)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Title"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Subtitle"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Background image (banner)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Placeholder"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Empty = default text in the site language."
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Button text"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Max width"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "E.g. 600 (px) or 80%. Empty = full width of the column (banner: 820px)."
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Vehicle card (full)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "The whole layout at once"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Tile fields"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "\"General information\" fields"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "\"Important dates\" fields"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "\"Environment and consumption\" fields"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Print button"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Picture"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Vehicle field"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "A single value (make, weight, date…)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Field"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Text before"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Text after"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "E.g. \" kg\""
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Standard unit"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Yes (kg, kW, g/km…)"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Date format"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "E.g. d.m.Y or j M Y"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "If empty"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Number plate"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Size"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Normal"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Small"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Large"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Search status"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "\"Vehicle found\" + date"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Text when found"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Show last updated date"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Vehicle picture"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "From the media library by title \"Make Model\", or a silhouette"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Text"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Key figure tiles"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Fields"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Columns"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Field table"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Icon"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Highlight row"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "— none —"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Custom labels"
+msgstr ""
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "E.g. merke:Brand,modell:Model"
+msgstr ""
+
+#: templates\card.php
+msgid "General information"
+msgstr ""
+
+#: templates\card.php
+msgid "Important dates"
+msgstr ""
+
+#: templates\status.php
+msgid "Vehicle not found"
+msgstr ""
+
+#: templates\notice.php
+msgid "Invalid registration number"
+msgstr ""
+
+#: templates\notice.php
+msgid "The search could not be completed"
+msgstr ""
+
+#: templates\notice.php
+msgid "We found no vehicle with “%s”. Check that the number is correct."
+msgstr ""
+
+#: templates\notice.php
+msgid "Enter a registration number (e.g. AB12345) or a 17-character VIN."
+msgstr ""
+
+#: templates\plate.php
+msgid "Registration number %s"
+msgstr ""
+
+#: templates\status.php
+msgid "j M Y"
+msgstr ""
+
+#: templates\status.php
+msgid "Last updated: %s"
+msgstr ""
