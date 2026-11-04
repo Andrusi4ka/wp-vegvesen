@@ -21,14 +21,80 @@ class BV_Icons {
 		'gear'     => '<circle cx="6" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v10M12 7v10M18 7v5H6"/>',
 	);
 
+	/** Option with the icon chosen per field on the Variables page: [ field => icon name | 'none' ]. */
+	const OPTION = 'bv_field_icons';
+
+	private static $all = null;
+
+	/** The plugin's own icons plus the extra set (includes/icons-lucide.php). */
+	public static function all() {
+		if ( null === self::$all ) {
+			$extra     = include __DIR__ . '/icons-lucide.php';
+			self::$all = self::$paths + ( is_array( $extra ) ? $extra : array() );
+		}
+		return self::$all;
+	}
+
 	public static function get( $name, $class = '' ) {
-		if ( ! isset( self::$paths[ $name ] ) ) {
+		$all = self::all();
+		if ( ! isset( $all[ $name ] ) ) {
 			return '';
 		}
-		return '<svg class="bv-icon ' . esc_attr( $class ) . '" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . self::$paths[ $name ] . '</svg>';
+		return '<svg class="bv-icon ' . esc_attr( $class ) . '" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $all[ $name ] . '</svg>';
 	}
 
 	public static function names() {
-		return array_keys( self::$paths );
+		return array_keys( self::all() );
+	}
+
+	/** Icons grouped for the picker: [ group label => [ names ] ]. Icons not listed land in "Other". */
+	public static function groups() {
+		$groups = array(
+			__( 'Vehicle', 'bruktdeler-vegvesen' )            => array( 'car', 'car-front', 'bus', 'truck', 'caravan', 'bike', 'disc-3', 'circle-dot', 'key-round', 'seat', 'armchair', 'users', 'user' ),
+			__( 'Engine and energy', 'bruktdeler-vegvesen' )  => array( 'engine', 'fuel', 'gauge', 'gear', 'cog', 'settings', 'cylinder', 'battery', 'battery-charging', 'plug-zap', 'zap', 'thermometer', 'droplet', 'droplets', 'wind', 'snowflake', 'sun', 'leaf' ),
+			__( 'Dates and time', 'bruktdeler-vegvesen' )     => array( 'calendar', 'calendar-check', 'calendar-clock', 'clock', 'timer', 'history' ),
+			__( 'Size and weight', 'bruktdeler-vegvesen' )    => array( 'weight', 'scale', 'ruler', 'move-horizontal', 'move-vertical', 'package', 'container' ),
+			__( 'Status', 'bruktdeler-vegvesen' )             => array( 'check', 'circle-check', 'badge-check', 'shield-check', 'clipboard-check', 'alert', 'triangle-alert', 'info' ),
+		);
+		$listed = array();
+		foreach ( $groups as $label => $names ) {
+			$groups[ $label ] = array_values( array_intersect( $names, self::names() ) );
+			$listed           = array_merge( $listed, $groups[ $label ] );
+		}
+		$groups[ __( 'Other', 'bruktdeler-vegvesen' ) ] = array_values( array_diff( self::names(), $listed ) );
+		return $groups;
+	}
+
+	/** The field's built-in icon ('info' when it has none). */
+	public static function default_field_icon( $key ) {
+		$f = BV_Fields::get( $key );
+		return ! empty( $f['icon'] ) ? $f['icon'] : 'info';
+	}
+
+	/** Icon for a field in tiles: the one chosen on the Variables page, else the built-in one. '' = no icon. */
+	public static function field_icon( $key ) {
+		$chosen = (array) get_option( self::OPTION, array() );
+		if ( isset( $chosen[ $key ] ) ) {
+			return 'none' === $chosen[ $key ] ? '' : (string) $chosen[ $key ];
+		}
+		return self::default_field_icon( $key );
+	}
+
+	/**
+	 * Saves the icon of one field: an icon name, 'none' (no icon) or '' (back to the built-in one).
+	 * Returns false for an unknown field or icon.
+	 */
+	public static function set_field_icon( $key, $icon ) {
+		if ( ! BV_Fields::get( $key ) || ( '' !== $icon && 'none' !== $icon && ! isset( self::all()[ $icon ] ) ) ) {
+			return false;
+		}
+		$chosen = (array) get_option( self::OPTION, array() );
+		if ( '' === $icon || self::default_field_icon( $key ) === $icon ) {
+			unset( $chosen[ $key ] );
+		} else {
+			$chosen[ $key ] = $icon;
+		}
+		update_option( self::OPTION, $chosen, false );
+		return true;
 	}
 }

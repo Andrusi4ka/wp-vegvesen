@@ -16,8 +16,24 @@ class BV_WPBakery {
 		$yes_no     = array( __( 'Yes', 'bruktdeler-vegvesen' ) => '1', __( 'No', 'bruktdeler-vegvesen' ) => '0' );
 		$icons      = array_unique( array_merge( array( 'info' => 'info' ), array_combine( BV_Icons::names(), BV_Icons::names() ) ) );
 		$fields     = array_flip( BV_Fields::choices() );
-		$fields_tip = __( 'Comma separated. Field list: Vegvesen → Variables.', 'bruktdeler-vegvesen' );
+		$fields_tip = __( 'Comma separated. Field list: WP Vegvesen → Variables.', 'bruktdeler-vegvesen' );
 		$base       = array( 'category' => 'Vegvesen', 'icon' => 'dashicons dashicons-car', 'show_settings_on_create' => true );
+		// "Title tag" dropdown (H1–H6, p, div, span); the look stays the same, only the HTML tag changes (SEO).
+		$tag_param = function ( $name, $heading, $default ) {
+			$tags = array();
+			foreach ( BV_Render::title_tags() as $tag ) {
+				$tags[ strtoupper( $tag ) ] = $tag;
+			}
+			return array(
+				'type'        => 'dropdown',
+				'heading'     => $heading,
+				'param_name'  => $name,
+				'value'       => $tags,
+				'std'         => $default,
+				/* translators: %s: default HTML tag, e.g. H2. */
+				'description' => sprintf( __( 'HTML tag for SEO; the look does not change. Default: %s.', 'bruktdeler-vegvesen' ), strtoupper( $default ) ),
+			);
+		};
 
 		vc_map( array_merge( $base, array(
 			'name'        => __( 'Vehicle search', 'bruktdeler-vegvesen' ),
@@ -30,6 +46,7 @@ class BV_WPBakery {
 					__( 'Compact (for header)', 'bruktdeler-vegvesen' ) => 'compact',
 				) ),
 				array( 'type' => 'textfield', 'heading' => __( 'Title', 'bruktdeler-vegvesen' ), 'param_name' => 'title' ),
+				$tag_param( 'title_tag', __( 'Title tag', 'bruktdeler-vegvesen' ), 'h1' ),
 				array( 'type' => 'textfield', 'heading' => __( 'Subtitle', 'bruktdeler-vegvesen' ), 'param_name' => 'subtitle' ),
 				array( 'type' => 'attach_image', 'heading' => __( 'Background image (banner)', 'bruktdeler-vegvesen' ), 'param_name' => 'image' ),
 				array( 'type' => 'textfield', 'heading' => __( 'Placeholder', 'bruktdeler-vegvesen' ), 'param_name' => 'placeholder', 'description' => __( 'Empty = default text in the site language.', 'bruktdeler-vegvesen' ) ),
@@ -51,6 +68,8 @@ class BV_WPBakery {
 				array( 'type' => 'dropdown', 'heading' => __( 'Print button', 'bruktdeler-vegvesen' ), 'param_name' => 'print', 'value' => $yes_no ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Picture', 'bruktdeler-vegvesen' ), 'param_name' => 'image', 'value' => $yes_no ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'param_name' => 'logo', 'value' => $yes_no ),
+				$tag_param( 'title_tag', __( 'Vehicle name tag', 'bruktdeler-vegvesen' ), 'h2' ),
+				$tag_param( 'table_title_tag', __( 'Table titles tag', 'bruktdeler-vegvesen' ), 'h3' ),
 			), $common ),
 		) ) );
 
@@ -128,6 +147,7 @@ class BV_WPBakery {
 			'base'   => 'bv_table',
 			'params' => array_merge( array(
 				array( 'type' => 'textfield', 'heading' => __( 'Title', 'bruktdeler-vegvesen' ), 'param_name' => 'title', 'admin_label' => true ),
+				$tag_param( 'title_tag', __( 'Title tag', 'bruktdeler-vegvesen' ), 'h3' ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Icon', 'bruktdeler-vegvesen' ), 'param_name' => 'icon', 'value' => $icons ),
 				array( 'type' => 'textfield', 'heading' => __( 'Fields', 'bruktdeler-vegvesen' ), 'param_name' => 'fields', 'value' => BV_Shortcodes::TABLE_GENERAL, 'description' => $fields_tip ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Highlight row', 'bruktdeler-vegvesen' ), 'param_name' => 'highlight', 'value' => array_merge( array( __( '— none —', 'bruktdeler-vegvesen' ) => '' ), $fields ) ),

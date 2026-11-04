@@ -24,6 +24,7 @@
 	--bv-title-weight: var(--wd-title-font-weight, 700);
 	--bv-radius: 14px;
 	--bv-radius-sm: 10px;
+	--bv-gap: 20px; /* space between tiles and between the card's tables */
 	--bv-btn-radius: var(--btn-accented-brd-radius, 8px);
 	--bv-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 4px 16px rgba(16, 24, 40, .05);
 	--bv-plate-blue: #0b3d91;
@@ -38,7 +39,7 @@
 /* ---------- Search ---------- */
 .bv-search { margin-bottom: 32px; }
 .bv-search__title {
-	margin: 0 0 10px; color: var(--bv-title); font-family: var(--bv-title-font); font-weight: var(--bv-title-weight);
+	display: block; margin: 0 0 10px; color: var(--bv-title); font-family: var(--bv-title-font); font-weight: var(--bv-title-weight);
 	font-size: clamp(30px, 5vw, 56px); line-height: 1.1;
 }
 .bv-search__subtitle { margin: 0 0 28px; font-size: clamp(16px, 1.6vw, 20px); }
@@ -86,10 +87,8 @@
 .bv-search--hero .bv-search__form { border-color: transparent; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
 
 /* ---------- Card ---------- */
-.bv-card {
-	margin-bottom: 32px; padding: clamp(18px, 3vw, 34px); background: var(--bv-bg);
-	border: 1px solid var(--bv-border); border-radius: var(--bv-radius); box-shadow: var(--bv-shadow);
-}
+/* No frame or padding of its own: the card sits in the page's column like the rest of the content. */
+.bv-card { margin: 0; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; }
 .bv-card__head {
 	display: flex; flex-wrap: wrap; align-items: center; gap: 16px 40px;
 	padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--bv-border);
@@ -98,12 +97,13 @@
 .bv-card__hero { display: flex; align-items: center; gap: 24px 40px; margin-bottom: 24px; }
 .bv-card__hero .bv-image { flex: 0 0 min(360px, 40%); }
 .bv .bv-card__title {
-	margin: 0 0 6px; color: var(--bv-title); font-family: var(--bv-title-font); font-weight: var(--bv-title-weight);
+	display: block; margin: 0 0 6px; color: var(--bv-title); font-family: var(--bv-title-font); font-weight: var(--bv-title-weight);
 	font-size: clamp(26px, 3.2vw, 38px); line-height: 1.15;
 }
 .bv-card__sub { margin: 0; color: var(--bv-muted); font-size: clamp(17px, 1.8vw, 22px); }
-.bv-card__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: start; margin-top: 20px; }
-.bv-card__col { display: grid; gap: 20px; }
+/* Two equal halves with the tiles' gap, so the middle line meets the line between the tiles (with 2, 4 or 6 tiles). */
+.bv-card__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--bv-gap, 20px); align-items: start; margin-top: var(--bv-gap, 20px); }
+.bv-card__col { display: grid; gap: var(--bv-gap, 20px); }
 
 /* ---------- Plate ---------- */
 .bv-plate {
@@ -156,7 +156,7 @@
 .bv-image--light .bv-sil-glass { fill: #8a939d; fill-opacity: .45; }
 
 /* ---------- Tiles ---------- */
-.bv-tiles { display: grid; grid-template-columns: repeat(var(--bv-cols, 4), minmax(0, 1fr)); gap: 18px; }
+.bv-tiles { display: grid; grid-template-columns: repeat(var(--bv-cols, 4), minmax(0, 1fr)); gap: var(--bv-gap, 20px); }
 .bv-tile {
 	display: flex; align-items: center; gap: 16px; padding: 18px 20px;
 	background: var(--bv-surface); border: 1px solid var(--bv-border); border-radius: var(--bv-radius-sm);

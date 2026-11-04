@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Vegvesen 1.4.0\n"
+"Project-Id-Version: WP Vegvesen 1.4.1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,8 +25,8 @@ msgid "Variables"
 msgstr "Variabler"
 
 #: includes\class-bv-admin.php
-msgid "Vegvesen – settings"
-msgstr "Vegvesen – innstillinger"
+msgid "WP Vegvesen – settings"
+msgstr "WP Vegvesen – innstillinger"
 
 #: includes\class-bv-admin.php
 msgid "Demo mode is on."
@@ -201,12 +201,12 @@ msgid "Save"
 msgstr "Lagre"
 
 #: includes\class-bv-admin.php
-msgid "Search field. Attributes: layout=\"hero|compact\", title, subtitle, image (ID or URL), placeholder, button, max_width"
-msgstr "Søkefelt. Attributter: layout=\"hero|compact\", title, subtitle, image (ID eller URL), placeholder, button, max_width"
+msgid "Search field. Attributes: layout=\"hero|compact\", title, title_tag=\"h2\", subtitle, image (ID or URL), placeholder, button, max_width"
+msgstr "Søkefelt. Attributter: layout=\"hero|compact\", title, title_tag=\"h2\", subtitle, image (ID eller URL), placeholder, button, max_width"
 
 #: includes\class-bv-admin.php
-msgid "The whole vehicle card. Attributes: tiles, general, dates, miljo (field lists), print=\"0\", image=\"0\""
-msgstr "Hele kjøretøykortet. Attributter: tiles, general, dates, miljo (feltlister), print=\"0\", image=\"0\""
+msgid "The whole vehicle card. Attributes: tiles, general, dates, miljo (field lists), print=\"0\", image=\"0\", title_tag=\"h1\" (vehicle name), table_title_tag=\"h4\""
+msgstr "Hele kjøretøykortet. Attributter: tiles, general, dates, miljo (feltlister), print=\"0\", image=\"0\", title_tag=\"h1\" (kjøretøynavn), table_title_tag=\"h4\""
 
 #: includes\class-bv-admin.php
 msgid "Number plate. size=\"small|large\""
@@ -233,8 +233,8 @@ msgid "Tiles with icons. columns=\"4\""
 msgstr "Fliser med ikoner. columns=\"4\""
 
 #: includes\class-bv-admin.php
-msgid "Table. highlight=\"neste_eu\", labels=\"merke:Brand\", hide_empty=\"0\". Icons: %s"
-msgstr "Tabell. highlight=\"neste_eu\", labels=\"merke:Bilmerke\", hide_empty=\"0\". Ikoner: %s"
+msgid "Table. highlight=\"neste_eu\", labels=\"merke:Brand\", hide_empty=\"0\", title_tag=\"h2\". Icons: %s"
+msgstr "Tabell. highlight=\"neste_eu\", labels=\"merke:Bilmerke\", hide_empty=\"0\", title_tag=\"h2\". Ikoner: %s"
 
 #: includes\class-bv-admin.php
 msgid "The field's label (e.g. Kerb weight)"
@@ -857,8 +857,8 @@ msgid "No"
 msgstr "Nei"
 
 #: includes\integrations\class-bv-wpbakery.php
-msgid "Comma separated. Field list: Vegvesen → Variables."
-msgstr "Kommaseparert. Feltliste: Vegvesen → Variabler."
+msgid "Comma separated. Field list: WP Vegvesen → Variables."
+msgstr "Kommaseparert. Feltliste: WP Vegvesen → Variabler."
 
 #: includes\integrations\class-bv-wpbakery.php
 msgid "Vehicle search"
@@ -1139,3 +1139,219 @@ msgstr "Fargekode (Vegvesen)"
 #: includes\class-bv-fields.php
 msgid "Vegvesen colour code (01 = white, 05 = grey…)"
 msgstr "Vegvesens fargekode (01 = hvit, 05 = grå …)"
+
+#: includes\class-bv-api.php
+msgid "Statens vegvesen sent an unexpected response. Please try again later."
+msgstr "Statens vegvesen sendte et uventet svar. Prøv igjen senere."
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Title tag"
+msgstr "Titteltagg"
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Vehicle name tag"
+msgstr "Tagg for kjøretøynavn"
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "Table titles tag"
+msgstr "Tagg for tabelltitler"
+
+#: includes\integrations\class-bv-wpbakery.php
+msgid "HTML tag for SEO; the look does not change. Default: %s."
+msgstr "HTML-tagg for SEO; utseendet endres ikke. Standard: %s."
+
+#: includes\class-bv-admin.php
+msgid "User guide (PDF)"
+msgstr "Veiledning (PDF)"
+
+#: includes\class-bv-admin.php
+msgid "How to use the variables: shortcodes and tokens, formats, conditions, visibility classes, ready-made blocks, examples and the list of all fields."
+msgstr "Slik bruker du variablene: kortkoder og tokens, formater, betingelser, synlighetsklasser, ferdige blokker, eksempler og listen over alle felt."
+
+#: includes\class-bv-admin.php
+msgid "Access"
+msgstr "Tilgang"
+
+#: includes\class-bv-admin.php
+msgid "Who can see WP Vegvesen"
+msgstr "Hvem kan se WP Vegvesen"
+
+#: includes\class-bv-admin.php
+msgid "always"
+msgstr "alltid"
+
+#: includes\class-bv-admin.php
+msgid "The chosen roles see the WP Vegvesen menu with Settings and Variables. Visitors and the vehicle pages on the site are not affected."
+msgstr "De valgte rollene ser WP Vegvesen-menyen med Innstillinger og Variabler. Besøkende og kjøretøysidene på nettstedet påvirkes ikke."
+
+#: includes\class-bv-admin.php
+msgid "Only an administrator can change who has access."
+msgstr "Bare en administrator kan endre hvem som har tilgang."
+
+#: includes\class-bv-admin.php
+msgid "In wp-config.php"
+msgstr "I wp-config.php"
+
+#: includes\class-bv-admin.php
+msgid "Saved"
+msgstr "Lagret"
+
+#: includes\class-bv-admin.php
+msgid "Missing"
+msgstr "Mangler"
+
+#: includes\class-bv-admin.php
+msgid "Data"
+msgstr "Data"
+
+#: includes\class-bv-admin.php
+msgid "Demo (sample data)"
+msgstr "Demo (eksempeldata)"
+
+#: includes\class-bv-admin.php
+msgid "Live from Vegvesen"
+msgstr "Direkte fra Vegvesen"
+
+#: includes\class-bv-admin.php
+msgid "The connection to Statens vegvesen and how often it is asked."
+msgstr "Forbindelsen til Statens vegvesen og hvor ofte den brukes."
+
+#: includes\class-bv-admin.php
+msgid "Where the search leads and how the vehicle data looks."
+msgstr "Hvor søket fører, og hvordan kjøretøydataene ser ut."
+
+#: includes\class-bv-admin.php
+msgid "What the page does when a visitor has searched."
+msgstr "Hva siden gjør når en besøkende har søkt."
+
+#: includes\class-bv-admin.php
+msgid "Which users see this plugin in the admin."
+msgstr "Hvilke brukere som ser denne utvidelsen i administrasjonen."
+
+#: includes\class-bv-admin.php
+msgid "Logos shown next to the vehicle name."
+msgstr "Logoer som vises ved siden av kjøretøynavnet."
+
+#: includes\class-bv-admin.php
+msgid "Advanced: API address and authorization"
+msgstr "Avansert: API-adresse og autorisasjon"
+
+#: includes\class-bv-admin.php
+msgid "Change these only if Statens vegvesen changes its API."
+msgstr "Endre disse bare hvis Statens vegvesen endrer API-et sitt."
+
+#: includes\class-bv-admin.php
+msgid "Engine and energy"
+msgstr "Motor og energi"
+
+#: includes\class-bv-admin.php
+msgid "Dates and time"
+msgstr "Datoer og tid"
+
+#: includes\class-bv-admin.php
+msgid "Size and weight"
+msgstr "Størrelse og vekt"
+
+#: includes\class-bv-admin.php
+msgid "Other"
+msgstr "Annet"
+
+#: includes\class-bv-admin.php
+msgid "Icon in tiles. Click to change."
+msgstr "Ikon i flisene. Klikk for å endre."
+
+#: includes\class-bv-admin.php
+msgid "Icon for \"%s\" – click to change"
+msgstr "Ikon for «%s» – klikk for å endre"
+
+#: includes\class-bv-admin.php
+msgid "Icon for \"%s\""
+msgstr "Ikon for «%s»"
+
+#: includes\class-bv-admin.php
+msgid "Close"
+msgstr "Lukk"
+
+#: includes\class-bv-admin.php
+msgid "No icon"
+msgstr "Uten ikon"
+
+#: includes\class-bv-admin.php
+msgid "Reset to default"
+msgstr "Tilbakestill"
+
+#: includes\class-bv-admin.php
+msgid "Saving…"
+msgstr "Lagrer …"
+
+#: includes\class-bv-admin.php
+msgid "Could not save. Reload the page and try again."
+msgstr "Kunne ikke lagre. Last inn siden på nytt og prøv igjen."
+
+#: includes\class-bv-admin.php
+msgid "Copied"
+msgstr "Kopiert"
+
+#: includes\class-bv-admin.php
+msgid "Press Ctrl+C to copy"
+msgstr "Trykk Ctrl+C for å kopiere"
+
+#: includes\class-bv-admin.php
+msgid "Automatic lookups are not allowed."
+msgstr "Automatiske oppslag er ikke tillatt."
+
+#: includes\class-bv-admin.php
+msgid "The daily number of searches has been reached. Please try again tomorrow."
+msgstr "Dagens antall søk er nådd. Prøv igjen i morgen."
+
+#: includes\class-bv-admin.php
+msgid "Visitor IP"
+msgstr "Besøkendes IP"
+
+#: includes\class-bv-admin.php
+msgid "Direct connection (no proxy)"
+msgstr "Direkte tilkobling (ingen proxy)"
+
+#: includes\class-bv-admin.php
+msgid "Cloudflare (CF-Connecting-IP)"
+msgstr "Cloudflare (CF-Connecting-IP)"
+
+#: includes\class-bv-admin.php
+msgid "Proxy or load balancer (X-Forwarded-For)"
+msgstr "Proxy eller lastbalanserer (X-Forwarded-For)"
+
+#: includes\class-bv-admin.php
+msgid "Nginx proxy (X-Real-IP)"
+msgstr "Nginx-proxy (X-Real-IP)"
+
+#: includes\class-bv-admin.php
+msgid "Behind a CDN or proxy every visitor arrives from the same address, so the search limit would stop everyone at once. Choose where the real address is. Choose a proxy only if the site really is behind one: otherwise visitors could fake their address."
+msgstr "Bak et CDN eller en proxy kommer alle besøkende fra samme adresse, så søkegrensen ville stoppe alle samtidig. Velg hvor den ekte adressen står. Velg en proxy bare hvis nettstedet faktisk står bak en: ellers kan besøkende forfalske adressen sin."
+
+#: includes\class-bv-admin.php
+msgid "This site seems to be behind Cloudflare. Choose \"Cloudflare\"."
+msgstr "Nettstedet ser ut til å stå bak Cloudflare. Velg «Cloudflare»."
+
+#: includes\class-bv-admin.php
+msgid "Daily limit"
+msgstr "Daglig grense"
+
+#: includes\class-bv-admin.php
+msgid "requests to Vegvesen per day (0 = no limit)"
+msgstr "forespørsler til Vegvesen per dag (0 = ingen grense)"
+
+#: includes\class-bv-admin.php
+msgid "Vegvesen allows 50,000 per API key per day; keep a margin. Today so far: %s. Answers from the cache, demo data and search engines do not count."
+msgstr "Vegvesen tillater 50 000 per API-nøkkel per dag; hold litt margin. Så langt i dag: %s. Svar fra mellomlageret, demodata og søkemotorer telles ikke."
+
+#: includes\class-bv-admin.php
+msgid "Requests today"
+msgstr "Forespørsler i dag"
+
+#: includes\class-bv-admin.php
+msgid "Statens vegvesen answers that the daily quota of the API key is used up. Vehicle searches on the site do not work until tomorrow; cached vehicles are still shown."
+msgstr "Statens vegvesen svarer at dagskvoten for API-nøkkelen er brukt opp. Kjøretøysøk på nettstedet virker ikke før i morgen; mellomlagrede kjøretøy vises fortsatt."
+
+#: includes\class-bv-admin.php
+msgid "The daily limit of requests to Vegvesen has been reached. Vehicle searches on the site do not work until tomorrow; cached vehicles are still shown. If this is normal traffic, raise the limit."
+msgstr "Den daglige grensen for forespørsler til Vegvesen er nådd. Kjøretøysøk på nettstedet virker ikke før i morgen; mellomlagrede kjøretøy vises fortsatt. Er dette vanlig trafikk, øk grensen."

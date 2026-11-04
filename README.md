@@ -26,8 +26,8 @@ Made by [Relevant AS](https://relevant.no). Built for a WoodMart / WPBakery site
    ```php
    define( 'BV_API_KEY', 'your-key' );
    ```
-3. Activate the plugin and go to **Vegvesen → Settings**: turn off demo mode and choose the result page.
-4. **Vegvesen → Variables** lists every field with a live test lookup.
+3. Activate the plugin and go to **WP Vegvesen → Settings**: turn off demo mode and choose the result page.
+4. **WP Vegvesen → Variables** lists every field with a live test lookup.
 
 The Vegvesen API allows 50,000 requests per API key per day. Responses are cached (24 h by default) to save the quota. Owner data is not available through the API.
 
@@ -44,3 +44,7 @@ Sites get new versions under **Plugins** like any other update, with **View deta
 1. Raise the version in three places: the `Version:` header and `BV_VERSION` in `bruktdeler-vegvesen.php`, and `Stable tag:` in `readme.txt`. Add the changes under `== Changelog ==`.
 2. Commit, then push a tag: `git tag v1.4.1 && git push origin main v1.4.1`.
 3. GitHub Actions (`.github/workflows/release.yml`) checks the PHP syntax and that the tag matches the versions, builds `wp-vegvesen.zip` (without the files marked `export-ignore` in `.gitattributes`) and publishes the release.
+
+## User guide (PDF)
+
+`assets/docs/wp-vegvesen-guide-en.pdf` and `-nb.pdf` are built from the plugin's own field list: `sh tools/build-guide.sh /path/to/wordpress [php] [chrome]`. Rebuild them when fields or the version change. `tools/` is left out of the release zip.

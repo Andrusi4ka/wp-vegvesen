@@ -3,7 +3,7 @@ Tags: vegvesen, vehicle, registration number, car parts, wpbakery
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,15 +27,15 @@ Built for a WoodMart / WPBakery site, but the logic lives in the plugin, so it w
 * Response cache, per-IP rate limit, and the API key never reaches the browser.
 * English, with a Norwegian bokmål translation.
 
-Bundles [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) 5 (MIT).
+Bundles [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) 5 (MIT) and icons from [Lucide](https://lucide.dev) (ISC).
 
 == Installation ==
 
 1. Download `wp-vegvesen.zip` from the latest release on https://github.com/Andrusi4ka/wp-vegvesen/releases.
 2. In WordPress go to Plugins > Add New > Upload Plugin and upload the zip, then activate it.
 3. Get an API key from Statens vegvesen ("API for tekniske kjøretøyopplysninger") and add it to `wp-config.php`: `define( 'BV_API_KEY', 'your-key' );`
-4. Go to Vegvesen > Settings: turn off demo mode and choose the result page.
-5. Vegvesen > Variables lists every field with a live test lookup.
+4. Go to WP Vegvesen > Settings: turn off demo mode and choose the result page.
+5. WP Vegvesen > Variables lists every field with a live test lookup.
 
 Later versions are offered under Plugins like any other update.
 
@@ -44,6 +44,10 @@ Later versions are offered under Plugins like any other update.
 = Where do updates come from? =
 
 From this plugin's GitHub releases. The plugin header's "Update URI" stops WordPress from offering a wordpress.org plugin that happens to share the folder name.
+
+= What is removed when I delete the plugin? =
+
+Deleting it under Plugins removes its settings (the API key saved there too), the cached Vegvesen answers and the update check data. The "Vehicle" result page is removed only if it is still exactly as the plugin created it; once you have edited it, it stays. Your own files in `wp-content/uploads/bv-logos` and `bv-bodies`, images in the media library and an API key in `wp-config.php` are kept. Deactivating or updating the plugin removes nothing.
 
 = How many lookups can I make? =
 
@@ -62,6 +66,19 @@ Vegvesen has no photos. Upload a photo to the media library and give it the titl
 Yes. Put an SVG file in `wp-content/uploads/bv-bodies/`, named after the body type (`sedan.svg`, `hatchback.svg`, `estate.svg`, `coupe.svg`, `convertible.svg`, `mpv.svg`, `pickup.svg`, `pickup-double.svg`, `van.svg`, `truck.svg`, `tractor.svg`, `bus.svg`, `camper.svg`, `trailer.svg`). It replaces the bundled one and survives plugin updates.
 
 == Changelog ==
+
+= 1.4.1 =
+* Settings: sections in boxes with a short overview on top (API key, live or demo data, result page, requests today); the API address is folded under "Advanced"; the Save button stays in view; WordPress's colour picker for the primary colour.
+* Access: choose which user roles see WP Vegvesen (administrators always). Only administrators can change it.
+* Variables: the icon of each field, changeable with one click (70 icons, Lucide set added) or removed; click a shortcode or token to copy it, with a "Copied" bubble (also on sites without https).
+* User guide (PDF) in English and Norwegian, linked next to the page heading in the admin language.
+* Title tags: choose h1–h6, p, div or span for the titles of the search field, the vehicle card and the tables (SEO).
+* Search limit behind Cloudflare or a proxy: choose where the visitor's real IP comes from.
+* Daily limit of requests to Vegvesen (45,000 by default) with a notice in the admin when searches stop; search engines and scripts no longer use the quota; vehicle pages are kept out of robots.txt.
+* Page caches (WP Rocket, LiteSpeed, W3 Total Cache, WP Super Cache, CDNs) no longer keep pages with an error, "not found" or demo data.
+* Deleting the plugin removes its settings and cached data (an edited result page is kept).
+* Vehicle card without its own frame and padding; tiles and tables line up.
+* Fixed: visibility classes hid blocks inside page builders; the search limit never reset for steady traffic; a maintenance page from the API counted as "not found"; renaming the result page broke vehicle addresses; the search form lost the result page with plain permalinks; an empty tiles box; brand logos were looked up on every page view.
 
 = 1.4.0 =
 * The plugin is now called WP Vegvesen, by Relevant AS.

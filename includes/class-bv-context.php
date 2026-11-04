@@ -23,6 +23,15 @@ class BV_Context {
 				delete_option( 'rewrite_rules' );
 			} );
 		}
+		// The pretty URL follows the result page's address: rebuild rules when its slug or parent changes.
+		add_action( 'post_updated', function ( $post_id, $after, $before ) {
+			if ( (int) $post_id === (int) BV_Settings::result_page_id()
+				&& ( $after->post_name !== $before->post_name || (int) $after->post_parent !== (int) $before->post_parent ) ) {
+				delete_option( 'rewrite_rules' );
+			}
+		}, 10, 3 );
+		add_action( 'template_redirect', array( __CLASS__, 'cache_control' ), 20 ); // After pretty_redirect().
+		add_filter( 'robots_txt', array( __CLASS__, 'robots_txt' ), 10, 2 );
 		add_filter( 'document_title_parts', array( __CLASS__, 'title' ) );
 		add_filter( 'wp_robots', array( __CLASS__, 'robots' ) );
 		add_filter( 'body_class', array( __CLASS__, 'body_class' ) );
@@ -115,7 +124,8 @@ class BV_Context {
 		}
 		$l = self::current();
 		if ( $l && 'funnet' === $l['status'] ) {
-			$parts['title'] = trim( ( $l['data']['regnr_formatted'] ?? $l['query'] ) . ' – ' . ( $l['data']['merke_modell'] ?? '' ), ' –' );
+			// implode, not trim(' –'): trim works on bytes and would cut a multibyte letter at the end.
+			$parts['title'] = implode( ' – ', array_filter( array( $l['data']['regnr_formatted'] ?? $l['query'], $l['data']['merke_modell'] ?? '' ) ) );
 		}
 		return $parts;
 	}
@@ -178,7 +188,46 @@ class BV_Context {
 	 * Printed inline in <head> so it works on every page, even without the plugin stylesheet.
 	 */
 	public static function visibility_css() {
+		// In a page builder every block stays visible and editable (no state class is set there).
+		if ( self::is_builder_preview() ) {
+			return;
+		}
 		echo "<style id=\"bv-visibility\">body:not(.bv-state-found) .bv-if-found,body:not(.bv-state-notfound) .bv-if-notfound,body:not(.bv-state-empty) .bv-if-empty,body.bv-state-empty .bv-if-searched{display:none!important}</style>\n";
+	}
+
+	/**
+	 * Page caches (WP Rocket, LiteSpeed, W3 Total Cache, WP Super Cache, a CDN) must not keep a vehicle page
+	 * that shows an error, "not found" or demo data: everyone would see it until the cache expires.
+	 * A page with a found vehicle may be cached – that even saves requests.
+	 */
+	public static function cache_control() {
+		if ( '' === self::requested() ) {
+			return;
+		}
+		$l = self::current();
+		if ( $l && 'funnet' === $l['status'] && empty( $l['demo'] ) ) {
+			return;
+		}
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true ); // WP Rocket, W3 Total Cache, WP Super Cache and most others.
+		}
+		do_action( 'litespeed_control_set_nocache', 'WP Vegvesen: no vehicle data to cache' );
+		nocache_headers(); // Browsers and CDNs.
+	}
+
+	/**
+	 * Robots: crawlers should not walk through vehicle pages (every visit could cost an API request).
+	 * The result page itself stays open. Only WordPress's own robots.txt – a robots.txt file on the server wins.
+	 */
+	public static function robots_txt( $output, $public ) {
+		$rules = array( 'Disallow: /*?regnr=', 'Disallow: /*&regnr=' );
+		$id    = BV_Settings::result_page_id();
+		if ( $id && self::pretty_enabled() ) {
+			$path    = '/' . trim( (string) wp_parse_url( get_permalink( $id ), PHP_URL_PATH ), '/' ) . '/';
+			$rules[] = 'Allow: ' . $path . '$';
+			$rules[] = 'Disallow: ' . $path;
+		}
+		return rtrim( $output ) . "\n\n# WP Vegvesen: vehicle pages\nUser-agent: *\n" . implode( "\n", $rules ) . "\n";
 	}
 
 	/** Vehicle pages are generated on the fly – keep them out of search engines. */

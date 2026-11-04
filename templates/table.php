@@ -10,7 +10,8 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <section class="<?php echo $class; // phpcs:ignore ?>">
 	<?php if ( $a['title'] ) : ?>
-		<h3 class="bv-panel__title"><?php echo BV_Icons::get( $a['icon'] ? $a['icon'] : 'info' ); // phpcs:ignore ?><span><?php echo esc_html( $a['title'] ); ?></span></h3>
+		<?php $bv_tag = BV_Render::title_tag( $a['title_tag'] ?? '', 'h3' ); ?>
+		<<?php echo $bv_tag; // phpcs:ignore -- whitelisted ?> class="bv-panel__title"><?php echo BV_Icons::get( $a['icon'] ? $a['icon'] : 'info' ); // phpcs:ignore ?><span><?php echo esc_html( $a['title'] ); ?></span></<?php echo $bv_tag; // phpcs:ignore ?>>
 	<?php endif; ?>
 	<dl class="bv-rows">
 		<?php foreach ( $rows as $row ) : ?>

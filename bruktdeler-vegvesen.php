@@ -3,7 +3,7 @@
  * Plugin Name:       WP Vegvesen
  * Plugin URI:        https://github.com/Andrusi4ka/wp-vegvesen
  * Description:       Vehicle lookup in Statens vegvesen by registration number or VIN. Provides variables (shortcodes and tokens), ready-made blocks and WPBakery elements that follow the theme's styling.
- * Version:           1.4.0
+ * Version:           1.4.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Relevant AS
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BV_VERSION', '1.4.0' );
+define( 'BV_VERSION', '1.4.1' );
 define( 'BV_REPOSITORY', 'https://github.com/Andrusi4ka/wp-vegvesen/' );
 define( 'BV_FILE', __FILE__ );
 define( 'BV_DIR', plugin_dir_path( __FILE__ ) );
@@ -41,9 +41,7 @@ if ( is_admin() ) {
 }
 
 // English is the source language; translations live in /languages (Norwegian bokmål included).
-add_action( 'init', function () {
-	load_plugin_textdomain( 'bruktdeler-vegvesen', false, dirname( plugin_basename( BV_FILE ) ) . '/languages' );
-}, 0 );
+add_action( 'init', array( 'BV_Settings', 'load_textdomain' ), 0 );
 
 /**
  * Updates from GitHub: a new release (tag "vX.Y.Z" with the wp-vegvesen.zip built by
@@ -69,8 +67,13 @@ BV_Shortcodes::init();
 BV_Rest::init();
 
 add_action( 'wp_enqueue_scripts', function () {
-	wp_register_style( 'bv', BV_URL . 'assets/css/bv.css', array(), BV_VERSION );
-	wp_register_script( 'bv', BV_URL . 'assets/js/bv.js', array(), BV_VERSION, true );
+	// Version + file time, so browsers fetch a file again whenever it changes.
+	$ver = function ( $path ) {
+		$time = @filemtime( BV_DIR . $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		return $time ? BV_VERSION . '.' . $time : BV_VERSION;
+	};
+	wp_register_style( 'bv', BV_URL . 'assets/css/bv.css', array(), $ver( 'assets/css/bv.css' ) );
+	wp_register_script( 'bv', BV_URL . 'assets/js/bv.js', array(), $ver( 'assets/js/bv.js' ), true );
 	// Scroll to the result after a search (only when a number is in the address, never inside page builders).
 	wp_add_inline_script( 'bv', 'window.bvConfig = ' . wp_json_encode( array(
 		'scroll' => BV_Settings::get( 'scroll' ) && '' !== BV_Context::requested() && ! BV_Context::is_builder_preview(),

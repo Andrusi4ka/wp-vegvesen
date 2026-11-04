@@ -171,6 +171,7 @@ class BV_Shortcodes {
 			'placeholder' => __( 'Registration number (e.g. AB12345)', 'bruktdeler-vegvesen' ),
 			'button'      => __( 'Search', 'bruktdeler-vegvesen' ),
 			'max_width'   => '',
+			'title_tag'   => 'h1',
 			'message'     => '1',
 			'el_class'    => '',
 			'css'         => '',
@@ -182,13 +183,7 @@ class BV_Shortcodes {
 		if ( '1' === $a['message'] && '' !== BV_Context::requested() ) {
 			$l = BV_Context::current();
 			if ( $l && 'funnet' !== $l['status'] ) {
-				$texts = array(
-					/* translators: %s: the registration number or VIN that was searched for. */
-					'ikke_funnet' => sprintf( __( 'We found no vehicle with “%s”. Check that the number is correct.', 'bruktdeler-vegvesen' ), $l['query'] ),
-					'ugyldig'     => __( 'Enter a registration number (e.g. AB12345) or a 17-character VIN.', 'bruktdeler-vegvesen' ),
-					'feil'        => $l['error'],
-				);
-				$a['message_text']   = $texts[ $l['status'] ] ?? '';
+				$a['message_text']   = BV_Render::status_message( $l );
 				$a['message_status'] = $l['status'];
 			}
 		}
@@ -205,7 +200,19 @@ class BV_Shortcodes {
 			$image = wp_get_attachment_image_url( (int) $image, 'full' );
 		}
 		$a['image_url'] = $image ? $image : '';
-		$a['action']    = BV_Context::url();
+		// A GET form drops the query string of its action, so plain permalinks (?page_id=5)
+		// would lead to the home page: send those arguments as hidden fields instead.
+		$action = BV_Context::url();
+		$hidden = array();
+		$query  = wp_parse_url( $action, PHP_URL_QUERY );
+		if ( $query ) {
+			wp_parse_str( $query, $hidden );
+			unset( $hidden['regnr'] );
+			$action = strtok( $action, '?' );
+		}
+		$a['title_tag'] = BV_Render::title_tag( $a['title_tag'], 'h1' );
+		$a['action']    = $action;
+		$a['hidden']    = $hidden;
 		$a['value']     = BV_Context::requested();
 		$a['class']     = BV_Render::classes( 'bv bv-search bv-search--' . sanitize_html_class( $a['layout'] ), $a );
 		return BV_Render::template( 'search', array( 'a' => $a ) );
@@ -281,8 +288,9 @@ class BV_Shortcodes {
 	public static function table( $atts ) {
 		$a = shortcode_atts( array(
 			'fields' => self::TABLE_GENERAL, 'title' => '', 'icon' => '', 'highlight' => '', 'labels' => '',
-			'hide_empty' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
+			'title_tag' => 'h3', 'hide_empty' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_table' );
+		$a['title_tag'] = BV_Render::title_tag( $a['title_tag'], 'h3' );
 		$l = self::lookup( $a );
 		if ( ! self::found( $l ) ) {
 			return '';
@@ -333,12 +341,14 @@ class BV_Shortcodes {
 			if ( '' === $val ) {
 				continue;
 			}
-			$f       = BV_Fields::get( $key );
 			$tiles[] = array(
 				'label' => BV_Fields::label( $key ),
 				'value' => $val,
-				'icon'  => $f['icon'] ?? 'info',
+				'icon'  => BV_Icons::field_icon( $key ),
 			);
+		}
+		if ( ! $tiles ) {
+			return ''; // As [bv_table]: no empty box when none of the fields has a value.
 		}
 		return BV_Render::template( 'tiles', array(
 			'tiles'   => $tiles,
@@ -351,15 +361,18 @@ class BV_Shortcodes {
 	public static function card( $atts ) {
 		$a = shortcode_atts( array(
 			'tiles' => self::DEFAULT_TILES, 'general' => self::TABLE_GENERAL, 'dates' => self::TABLE_DATES, 'miljo' => self::TABLE_MILJO,
-			'print' => '1', 'image' => '1', 'logo' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
+			'print' => '1', 'image' => '1', 'logo' => '1', 'title_tag' => 'h2', 'table_title_tag' => 'h3',
+			'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_card' );
+		$a['title_tag']       = BV_Render::title_tag( $a['title_tag'], 'h2' );
+		$a['table_title_tag'] = BV_Render::title_tag( $a['table_title_tag'], 'h3' );
 		$l = self::lookup( $a );
 		if ( ! $l ) {
 			return '';
 		}
 		$class = BV_Render::classes( 'bv bv-card', $a );
 		if ( ! self::found( $l ) ) {
-			return BV_Render::template( 'notice', array( 'l' => $l, 'class' => $class ) );
+			return BV_Render::template( 'notice', array( 'l' => $l, 'class' => $class, 'tag' => $a['table_title_tag'] ) );
 		}
 		return BV_Render::template( 'card', array( 'l' => $l, 'a' => $a, 'class' => $class ) );
 	}

@@ -74,17 +74,50 @@ class BV_Render {
 		}
 		$candidates = array_filter( array( $data['merke_modell'] ?? '', $data['merke'] ?? '' ) );
 		foreach ( $candidates as $title ) {
-			$ids = get_posts( array(
-				'post_type'      => 'attachment',
-				'post_status'    => 'inherit',
-				'post_mime_type' => 'image',
-				'title'          => $title,
-				'posts_per_page' => 1,
-				'fields'         => 'ids',
-			) );
-			if ( $ids ) {
-				return wp_get_attachment_image_url( $ids[0], 'large' );
+			$url = self::attachment_by_title( $title, 'large' );
+			if ( $url ) {
+				return $url;
 			}
+		}
+		return '';
+	}
+
+	/** URL of the newest media library image with exactly this title ('' if none). */
+	private static function attachment_by_title( $title, $size ) {
+		$ids = get_posts( array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'post_mime_type' => 'image',
+			'title'          => $title,
+			'posts_per_page' => 1,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+		) );
+		return $ids ? (string) wp_get_attachment_image_url( $ids[0], $size ) : '';
+	}
+
+	/** HTML tags a title may use (title_tag="h2" etc.). */
+	public static function title_tags() {
+		return array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span' );
+	}
+
+	/** A safe title tag: the one asked for if allowed, otherwise the default. */
+	public static function title_tag( $tag, $default ) {
+		$tag = strtolower( trim( (string) $tag ) );
+		return in_array( $tag, self::title_tags(), true ) ? $tag : $default;
+	}
+
+	/** Message for a search that found nothing or failed (search field and [bv_card] notice). */
+	public static function status_message( $lookup ) {
+		switch ( $lookup['status'] ?? '' ) {
+			case 'ikke_funnet':
+				/* translators: %s: the registration number or VIN that was searched for. */
+				return sprintf( __( 'We found no vehicle with “%s”. Check that the number is correct.', 'bruktdeler-vegvesen' ), $lookup['query'] );
+			case 'ugyldig':
+				return __( 'Enter a registration number (e.g. AB12345) or a 17-character VIN.', 'bruktdeler-vegvesen' );
+			case 'feil':
+				return (string) $lookup['error'];
 		}
 		return '';
 	}
@@ -142,17 +175,23 @@ class BV_Render {
 		if ( $url ) {
 			return $url;
 		}
-		$ids = get_posts( array(
-			'post_type'      => 'attachment',
-			'post_status'    => 'inherit',
-			'post_mime_type' => 'image',
-			'title'          => $merke . ' logo',
-			'posts_per_page' => 1,
-			'fields'         => 'ids',
-		) );
-		if ( $ids ) {
-			return wp_get_attachment_image_url( $ids[0], 'medium' );
+		// Cached per make (a database query and up to 24 file checks otherwise run on every page view).
+		// A media upload, edit or delete starts a new cache generation; files added by FTP show within an hour.
+		$key    = 'bv_logo_' . md5( BV_VERSION . '|' . (int) get_option( 'bv_logo_gen', 0 ) . '|' . strtolower( $merke ) );
+		$cached = get_transient( $key );
+		if ( is_array( $cached ) ) {
+			return (string) $cached['url'];
 		}
+		$url = self::attachment_by_title( $merke . ' logo', 'medium' );
+		if ( '' === $url ) {
+			$url = self::logo_file_url( $merke );
+		}
+		set_transient( $key, array( 'url' => $url ), HOUR_IN_SECONDS );
+		return $url;
+	}
+
+	/** Logo file for a make: your own folder first, then the bundled set ('' if none). */
+	private static function logo_file_url( $merke ) {
 		foreach ( self::logo_dirs() as $dir ) {
 			foreach ( self::logo_slugs( $merke ) as $slug ) {
 				foreach ( array( 'svg', 'webp', 'png', 'jpg' ) as $ext ) {
@@ -163,6 +202,11 @@ class BV_Render {
 			}
 		}
 		return '';
+	}
+
+	/** Starts a new logo cache generation (a media item may be a "Make logo"). */
+	public static function flush_logo_cache() {
+		update_option( 'bv_logo_gen', (int) get_option( 'bv_logo_gen', 0 ) + 1, false );
 	}
 
 	/** Number of logo files in a folder ('custom' or 'bundled'), for the settings page. */
@@ -247,3 +291,7 @@ class BV_Render {
 }
 
 add_action( 'wp_footer', array( 'BV_Render', 'footer_notes' ) );
+foreach ( array( 'add_attachment', 'edit_attachment', 'delete_attachment' ) as $bv_hook ) {
+	add_action( $bv_hook, array( 'BV_Render', 'flush_logo_cache' ) );
+}
+unset( $bv_hook );
