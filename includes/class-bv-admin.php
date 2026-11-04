@@ -210,7 +210,7 @@ class BV_Admin {
 			'[bv_plate]'                 => __( 'Number plate. size="small|large"', 'bruktdeler-vegvesen' ),
 			'[bv_status]'                => __( '"Vehicle found" + last updated date. found="your text", updated="0"', 'bruktdeler-vegvesen' ),
 			'[bv_logo size="64"]'        => __( 'Brand logo: a media library image titled "Make logo" (e.g. "Volkswagen logo"), otherwise the bundled logo. Nothing is shown if there is no logo.', 'bruktdeler-vegvesen' ),
-			'[bv_image]'                 => __( 'Vehicle picture: a media library image titled "Make Model" (e.g. "Volkswagen Passat"), otherwise a silhouette', 'bruktdeler-vegvesen' ),
+			'[bv_image]'                 => __( 'Vehicle picture: a media library image titled "Make Model" (e.g. "Volkswagen Passat"), otherwise a body type silhouette in the vehicle colour', 'bruktdeler-vegvesen' ),
 			'[bv_print]'                 => __( 'Print button. label="your text"', 'bruktdeler-vegvesen' ),
 			'[bv_tiles fields="registrert_aar,drivstoff,effekt,slagvolum"]' => __( 'Tiles with icons. columns="4"', 'bruktdeler-vegvesen' ),
 			/* translators: %s: list of icon names. */

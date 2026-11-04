@@ -1,8 +1,8 @@
-# Bruktdeler – Vegvesen Vehicle Lookup
+# WP Vegvesen
 
 WordPress plugin that looks up vehicles in the Statens vegvesen (Norwegian Public Roads Administration) register by registration number or VIN, and shows the technical data on your site.
 
-Built for a WoodMart / WPBakery site, but the logic lives in the plugin, so it works with any theme.
+Made by [Relevant AS](https://relevant.no). Built for a WoodMart / WPBakery site, but the logic lives in the plugin, so it works with any theme.
 
 ## Features
 
@@ -34,3 +34,13 @@ The Vegvesen API allows 50,000 requests per API key per day. Responses are cache
 ## Requirements
 
 WordPress 6.5+, PHP 7.4+.
+
+## Updates
+
+Sites get new versions under **Plugins** like any other update, with **View details** (filled from `readme.txt`). The plugin checks this repository's GitHub releases through the bundled [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker); the `Update URI` header keeps wordpress.org out of it.
+
+## Releasing a version
+
+1. Raise the version in three places: the `Version:` header and `BV_VERSION` in `bruktdeler-vegvesen.php`, and `Stable tag:` in `readme.txt`. Add the changes under `== Changelog ==`.
+2. Commit, then push a tag: `git tag v1.4.1 && git push origin main v1.4.1`.
+3. GitHub Actions (`.github/workflows/release.yml`) checks the PHP syntax and that the tag matches the versions, builds `wp-vegvesen.zip` (without the files marked `export-ignore` in `.gitattributes`) and publishes the release.

@@ -25,7 +25,7 @@
             },
             "karosseriOgLasteplan": {
               "karosseritype": { "kodeVerdi": "AC", "kodeBeskrivelse": "Stasjonsvogn" },
-              "rFarge": [ { "kodeVerdi": "08", "kodeNavn": "Grå" } ]
+              "rFarge": [ { "kodeVerdi": "05", "kodeNavn": "Grå" } ]
             },
             "persontall": { "sitteplasserTotalt": 5 },
             "motorOgDrivverk": {

@@ -250,10 +250,15 @@ class BV_Shortcodes {
 		if ( ! self::found( $l ) ) {
 			return '';
 		}
+		$color = BV_Render::body_color( $l['data'] );
 		return BV_Render::template( 'image', array(
 			'url'   => BV_Render::image_url( $l['data'] ),
 			'alt'   => $l['data']['merke_modell'] ?? '',
 			'class' => BV_Render::classes( 'bv bv-image', $a ),
+			'data'  => $l['data'],
+			'type'  => BV_Render::body_type( $l['data'] ),
+			'color' => $color,
+			'light' => BV_Render::is_light( $color ),
 		) );
 	}
 

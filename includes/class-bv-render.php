@@ -172,8 +172,77 @@ class BV_Render {
 		return count( preg_grep( '/\.(svg|webp|png|jpg)$/i', (array) $files ) );
 	}
 
-	public static function silhouette() {
-		return '<svg class="bv-silhouette" viewBox="0 0 240 100" aria-hidden="true"><path fill="currentColor" d="M12 72v-14c0-6 4-10 10-11l46-6 26-19c4-3 9-4 14-4h80c7 0 12 3 16 8l18 22c6 1 10 6 10 12v12c0 3-2 5-5 5h-17a22 22 0 0 0-43 0H75a22 22 0 0 0-43 0H17c-3 0-5-2-5-5z"/><path fill="#fff" opacity=".55" d="M76 42 99 26c3-2 6-3 9-3h30v19zM145 23h36c5 0 9 2 12 6l12 13h-60z"/><circle cx="53.5" cy="75" r="17" fill="currentColor"/><circle cx="53.5" cy="75" r="8" fill="#fff" opacity=".6"/><circle cx="187" cy="75" r="17" fill="currentColor"/><circle cx="187" cy="75" r="8" fill="#fff" opacity=".6"/></svg>';
+	/**
+	 * Silhouette slug for the vehicle's body type (assets/bodies/{slug}.svg).
+	 * Uses the Vegvesen body code (kodeverk KAROSSERITYPE), then the vehicle category.
+	 * Filter 'bv_body_type' can change the result.
+	 */
+	public static function body_type( $data ) {
+		$code = strtoupper( trim( (string) ( $data['karosseri_kode'] ?? '' ) ) );
+		$map  = array(
+			'AA' => 'sedan', 'AB' => 'hatchback', 'AC' => 'estate', 'AD' => 'coupe', 'AE' => 'convertible',
+			'AF' => 'mpv', 'AG' => 'pickup-double', 'BE' => 'pickup', 'BB' => 'van', 'BA' => 'truck', 'BX' => 'truck',
+			'BC' => 'tractor', 'BD' => 'tractor', 'SL' => 'tractor', 'SA' => 'camper', 'SC' => 'van', 'SH' => 'van',
+			'SE' => 'trailer', 'SJ' => 'trailer', 'SK' => 'trailer',
+		);
+		$type = '';
+		if ( isset( $map[ $code ] ) ) {
+			$type = $map[ $code ];
+		} elseif ( 'C' === substr( $code, 0, 1 ) && strlen( $code ) === 2 ) {
+			$type = 'bus';
+		} elseif ( 'D' === substr( $code, 0, 1 ) && strlen( $code ) === 2 ) {
+			$type = 'trailer';
+		} else {
+			// No usable body code: guess from the category (M1, N1, M3…).
+			$cat = strtoupper( (string) ( $data['kategori'] ?? '' ) );
+			if ( in_array( substr( $cat, 0, 2 ), array( 'M2', 'M3' ), true ) ) {
+				$type = 'bus';
+			} elseif ( 'N1' === substr( $cat, 0, 2 ) ) {
+				$type = 'van';
+			} elseif ( in_array( substr( $cat, 0, 2 ), array( 'N2', 'N3' ), true ) ) {
+				$type = 'truck';
+			} elseif ( 'O' === substr( $cat, 0, 1 ) ) {
+				$type = 'trailer';
+			}
+		}
+		$type = (string) apply_filters( 'bv_body_type', $type ? $type : 'sedan', $data );
+		return preg_replace( '/[^a-z0-9-]/', '', $type );
+	}
+
+	/** Car colour for the silhouette: the Vegvesen colour, or '' to use the neutral grey. */
+	public static function body_color( $data ) {
+		return (string) apply_filters( 'bv_body_color', $data['farge_hex'] ?? '', $data );
+	}
+
+	/** True for light colours (white, silver, beige…), which need an outline to stand out on a light page. */
+	public static function is_light( $hex ) {
+		if ( ! preg_match( '/^#?([0-9a-f]{6})$/i', (string) $hex, $m ) ) {
+			return false;
+		}
+		list( $r, $g, $b ) = array_map( 'hexdec', str_split( $m[1], 2 ) );
+		return ( 0.299 * $r + 0.587 * $g + 0.114 * $b ) / 255 > 0.72;
+	}
+
+	/**
+	 * Body type silhouette (inline SVG, coloured through CSS "color").
+	 * Your own files in wp-content/uploads/bv-bodies/{slug}.svg take priority over the bundled ones.
+	 */
+	public static function silhouette( $data = array() ) {
+		static $cache = array();
+		$type = self::body_type( $data );
+		if ( ! isset( $cache[ $type ] ) ) {
+			$u     = wp_upload_dir();
+			$files = array( trailingslashit( $u['basedir'] ) . 'bv-bodies/' . $type . '.svg', BV_DIR . 'assets/bodies/' . $type . '.svg', BV_DIR . 'assets/bodies/sedan.svg' );
+			$svg   = '';
+			foreach ( $files as $file ) {
+				if ( is_readable( $file ) ) {
+					$svg = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+					break;
+				}
+			}
+			$cache[ $type ] = preg_replace( '/<svg\b/', '<svg class="bv-silhouette bv-silhouette--' . esc_attr( $type ) . '"', trim( $svg ), 1 );
+		}
+		return $cache[ $type ];
 	}
 }
 

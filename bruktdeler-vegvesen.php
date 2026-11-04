@@ -1,18 +1,27 @@
 <?php
 /**
- * Plugin Name:       Bruktdeler – Vegvesen Vehicle Lookup
+ * Plugin Name:       WP Vegvesen
+ * Plugin URI:        https://github.com/Andrusi4ka/wp-vegvesen
  * Description:       Vehicle lookup in Statens vegvesen by registration number or VIN. Provides variables (shortcodes and tokens), ready-made blocks and WPBakery elements that follow the theme's styling.
- * Version:           1.3.0
+ * Version:           1.4.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
- * Author:            Bruktdeler
+ * Author:            Relevant AS
+ * Author URI:        https://relevant.no
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       bruktdeler-vegvesen
  * Domain Path:       /languages
+ * Update URI:        https://github.com/Andrusi4ka/wp-vegvesen
  */
+
+// "Update URI": updates come from this plugin's GitHub releases (bv_updates()),
+// never from a wordpress.org plugin that happens to share the folder name.
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BV_VERSION', '1.3.0' );
+define( 'BV_VERSION', '1.4.0' );
+define( 'BV_REPOSITORY', 'https://github.com/Andrusi4ka/wp-vegvesen/' );
 define( 'BV_FILE', __FILE__ );
 define( 'BV_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BV_URL', plugin_dir_url( __FILE__ ) );
@@ -35,6 +44,25 @@ if ( is_admin() ) {
 add_action( 'init', function () {
 	load_plugin_textdomain( 'bruktdeler-vegvesen', false, dirname( plugin_basename( BV_FILE ) ) . '/languages' );
 }, 0 );
+
+/**
+ * Updates from GitHub: a new release (tag "vX.Y.Z" with the wp-vegvesen.zip built by
+ * .github/workflows/release.yml) shows up under Plugins like any other update.
+ * "View details" is filled from readme.txt (description, installation, FAQ, changelog).
+ */
+function bv_updates() {
+	$library = BV_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php';
+	// Only where WordPress looks for updates: the admin and its cron.
+	if ( ( ! is_admin() && ! wp_doing_cron() ) || ! file_exists( $library ) ) {
+		return;
+	}
+	require_once $library;
+
+	$checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker( BV_REPOSITORY, BV_FILE, 'wp-vegvesen' );
+	// The release's zip, which holds just the plugin (not the repository's dev files).
+	$checker->getVcsApi()->enableReleaseAssets( '/wp-vegvesen\.zip($|[?&#])/i' );
+}
+add_action( 'plugins_loaded', 'bv_updates' );
 
 BV_Context::init();
 BV_Shortcodes::init();

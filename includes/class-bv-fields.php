@@ -39,9 +39,11 @@ class BV_Fields {
 			'merke_logo'        => array( 'group' => $g_general, 'label' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'desc' => __( 'URL of the brand logo (empty if there is none)', 'bruktdeler-vegvesen' ) ),
 			'variant'           => array( 'group' => $g_general, 'label' => __( 'Variant', 'bruktdeler-vegvesen' ), 'desc' => __( 'Variant / type designation', 'bruktdeler-vegvesen' ), 'case' => 'title', 'paths' => array( 'td.generelt.typebetegnelse' ) ),
 			'karosseri'         => array( 'group' => $g_general, 'label' => __( 'Body type', 'bruktdeler-vegvesen' ), 'desc' => __( 'Body type (e.g. estate)', 'bruktdeler-vegvesen' ), 'clean' => 'code', 'paths' => array( 'td.karosseriOgLasteplan.karosseritype.kodeNavn', 'td.karosseriOgLasteplan.karosseritype.kodeBeskrivelse' ) ),
+			'karosseri_kode'    => array( 'group' => $g_general, 'label' => __( 'Body type code', 'bruktdeler-vegvesen' ), 'desc' => __( 'Vegvesen code (AA = sedan, AC = estate…)', 'bruktdeler-vegvesen' ), 'paths' => array( 'td.karosseriOgLasteplan.karosseritype.kodeVerdi' ) ),
 			'kategori'          => array( 'group' => $g_general, 'label' => __( 'Vehicle category', 'bruktdeler-vegvesen' ), 'desc' => __( 'Technical code (M1, N1…)', 'bruktdeler-vegvesen' ), 'paths' => array( 'godkjenning.tekniskGodkjenning.kjoretoyklassifisering.tekniskKode.kodeVerdi' ) ),
 			'kategori_navn'     => array( 'group' => $g_general, 'label' => __( 'Vehicle category', 'bruktdeler-vegvesen' ), 'desc' => __( 'Category name + code, e.g. Personbil (M1)', 'bruktdeler-vegvesen' ), 'paths' => array( 'godkjenning.tekniskGodkjenning.kjoretoyklassifisering.tekniskKode.kodeNavn', 'godkjenning.tekniskGodkjenning.kjoretoyklassifisering.tekniskKode.kodeBeskrivelse' ) ),
 			'farge'             => array( 'group' => $g_general, 'label' => __( 'Colour', 'bruktdeler-vegvesen' ), 'desc' => __( 'Colour', 'bruktdeler-vegvesen' ), 'paths' => array( 'td.karosseriOgLasteplan.rFarge.0.kodeNavn', 'td.karosseriOgLasteplan.rFarge.0.kodeBeskrivelse' ) ),
+			'farge_kode'        => array( 'group' => $g_general, 'label' => __( 'Colour code (Vegvesen)', 'bruktdeler-vegvesen' ), 'desc' => __( 'Vegvesen colour code (01 = white, 05 = grey…)', 'bruktdeler-vegvesen' ), 'paths' => array( 'td.karosseriOgLasteplan.rFarge.0.kodeVerdi' ) ),
 			'farge_hex'         => array( 'group' => $g_general, 'label' => __( 'Colour code', 'bruktdeler-vegvesen' ), 'desc' => __( 'HEX colour for the swatch (calculated)', 'bruktdeler-vegvesen' ) ),
 			'sitteplasser'      => array( 'group' => $g_general, 'label' => __( 'Seats', 'bruktdeler-vegvesen' ), 'desc' => __( 'Number of seats', 'bruktdeler-vegvesen' ), 'type' => 'int', 'icon' => 'seat', 'paths' => array( 'td.persontall.sitteplasserTotalt' ) ),
 
@@ -211,8 +213,8 @@ class BV_Fields {
 			$name                  = $data['kategori_navn'] ?? self::category_name( $data['kategori'] );
 			$data['kategori_navn'] = $name ? $name . ' (' . $data['kategori'] . ')' : $data['kategori'];
 		}
-		if ( ! empty( $data['farge'] ) ) {
-			$data['farge_hex'] = self::color_hex( $data['farge'] );
+		if ( ! empty( $data['farge'] ) || ! empty( $data['farge_kode'] ) ) {
+			$data['farge_hex'] = self::color_hex( $data['farge'] ?? '', $data['farge_kode'] ?? '' );
 		}
 		if ( ! empty( $data['neste_eu'] ) ) {
 			$due   = strtotime( $data['neste_eu'] );
@@ -265,12 +267,25 @@ class BV_Fields {
 		return $map[ $code ] ?? ( $map[ substr( $code, 0, 2 ) ] ?? ( $map[ substr( $code, 0, 1 ) ] ?? '' ) );
 	}
 
-	/** Maps Vegvesen colour names (Norwegian) to a swatch colour. */
-	private static function color_hex( $name ) {
+	/**
+	 * Maps a Vegvesen colour to a swatch colour. The code (kodeverk KAROSSERIFARGE) is checked first,
+	 * then the Norwegian name. 99 = "Annen" (other / multicoloured) gets the neutral grey.
+	 */
+	private static function color_hex( $name, $code = '' ) {
+		$codes = array(
+			'01' => '#f4f4f2', '02' => '#c0392b', '03' => '#2c5aa0', '04' => '#2e7d4f', '05' => '#5f6670',
+			'06' => '#1c1d1f', '07' => '#d8c7a0', '08' => '#7b5234', '09' => '#e8c547', '10' => '#e67e22',
+			'11' => '#c3c7cc', '12' => '#c9a43a', '13' => '#e48bb0', '14' => '#7d4fa3', '29' => '#1a9e9e',
+		);
+		$code = str_pad( trim( (string) $code ), 2, '0', STR_PAD_LEFT );
+		if ( isset( $codes[ $code ] ) ) {
+			return $codes[ $code ];
+		}
 		$map = array(
 			'grå' => '#5f6670', 'svart' => '#1c1d1f', 'hvit' => '#f4f4f2', 'sølv' => '#c3c7cc', 'blå' => '#2c5aa0',
 			'rød' => '#c0392b', 'grønn' => '#2e7d4f', 'brun' => '#7b5234', 'beige' => '#d8c7a0', 'gul' => '#e8c547',
 			'oransje' => '#e67e22', 'lilla' => '#7d4fa3', 'fiolett' => '#7d4fa3', 'gull' => '#c9a43a', 'rosa' => '#e48bb0',
+			'turkis' => '#1a9e9e',
 		);
 		$name = mb_strtolower( $name );
 		foreach ( $map as $k => $hex ) {

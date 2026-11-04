@@ -1,0 +1,53 @@
+# Publishes a release with wp-vegvesen.zip for every "vX.Y.Z" tag; sites with
+# the plugin then see the update under Plugins (bruktdeler-vegvesen.php: bv_updates()).
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# To publish the release. The actions are pinned to a commit (their tag in
+# a comment): what runs with this right never changes behind our back.
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Check that the tag matches the plugin version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          header=$(grep -m1 -oP '^\s*\*\s*Version:\s*\K\S+' bruktdeler-vegvesen.php)
+          constant=$(grep -m1 -oP "define\(\s*'BV_VERSION',\s*'\K[^']+" bruktdeler-vegvesen.php)
+          stable=$(grep -m1 -oP '^Stable tag:\s*\K\S+' readme.txt)
+          if [ "$tag" != "$header" ] || [ "$tag" != "$constant" ] || [ "$tag" != "$stable" ]; then
+            echo "::error::Tag v$tag, Version $header, BV_VERSION $constant and readme.txt Stable tag $stable must match."
+            exit 1
+          fi
+
+      - name: Check PHP syntax
+        run: |
+          find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      # git archive leaves out what .gitattributes marks export-ignore (dev files).
+      - name: Build wp-vegvesen.zip
+        run: |
+          mkdir build
+          git archive --format=tar --prefix=wp-vegvesen/ HEAD | tar -x -C build
+          cd build
+          zip -qr ../wp-vegvesen.zip wp-vegvesen
+
+      # The release text: this version's part of the changelog in readme.txt.
+      - name: Release notes from readme.txt
+        run: |
+          awk -v v="= ${GITHUB_REF_NAME#v} =" '$0 == v {on=1; next} /^= / && on {exit} on' readme.txt > notes.md
+          test -s notes.md || echo "See readme.txt." > notes.md
+
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        with:
+          files: wp-vegvesen.zip
+          body_path: notes.md

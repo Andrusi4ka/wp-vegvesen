@@ -1,5 +1,5 @@
 /*
- * Bruktdeler – Vegvesen kjøretøysøk
+ * WP Vegvesen
  *
  * All colours/fonts are CSS variables. Each one first tries the active theme's
  * variable (WoodMart: --wd-*, --btn-*) and falls back to its own default, so the
@@ -145,8 +145,15 @@
 
 /* ---------- Image ---------- */
 .bv-image img { display: block; width: 100%; height: auto; max-height: 260px; object-fit: contain; }
-.bv-image--placeholder { display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 7; color: #c8ccd1; }
-.bv-silhouette { width: 88%; height: auto; }
+.bv-image--placeholder { display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 7; color: var(--bv-car-color, #c8ccd1); }
+.bv-silhouette { width: 88%; height: auto; overflow: visible; }
+/* Silhouette parts: body takes the car colour (currentColor), tyres stay dark. Override e.g. .bv { --bv-tyre: #000; } */
+.bv-silhouette .bv-sil-tyre { fill: var(--bv-tyre, #2b2f36); }
+.bv-silhouette .bv-sil-rim { fill: var(--bv-rim, #c9ced4); }
+.bv-silhouette .bv-sil-glass { fill: #fff; fill-opacity: .55; }
+/* Light colours (white, silver, beige…): thin outline and darker glass so the car stays visible. */
+.bv-image--light .bv-sil-body { stroke: rgba(0, 0, 0, .3); stroke-width: 1.2; stroke-linejoin: round; }
+.bv-image--light .bv-sil-glass { fill: #8a939d; fill-opacity: .45; }
 
 /* ---------- Tiles ---------- */
 .bv-tiles { display: grid; grid-template-columns: repeat(var(--bv-cols, 4), minmax(0, 1fr)); gap: 18px; }
