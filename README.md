@@ -14,6 +14,7 @@ Built for a WoodMart / WPBakery site, but the logic lives in the plugin, so it w
 - Conditions `[bv_if …]` and visibility classes (`bv-if-found`, `bv-if-notfound`, `bv-if-empty`, `bv-if-searched`).
 - WPBakery elements (category "Vegvesen") with Design Options.
 - Follows the theme's colours and fonts through CSS variables (WoodMart `--wd-*`, with fallbacks).
+- Brand logos (`[bv_logo]`, `{bv:merke_logo}`): 387 logos bundled (see `assets/logos/README.md`), your own uploads take priority.
 - Templates can be overridden in the theme: `your-theme/bruktdeler-vegvesen/*.php`.
 - Response cache, per-IP rate limit, the API key never reaches the browser.
 - English source with Norwegian bokmål translation.

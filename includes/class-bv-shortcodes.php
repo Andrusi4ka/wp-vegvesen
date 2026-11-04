@@ -26,6 +26,7 @@ class BV_Shortcodes {
 			'bv_status' => 'status',
 			'bv_print'  => 'print',
 			'bv_image'  => 'image',
+			'bv_logo'   => 'logo',
 			'bv_table'  => 'table',
 			'bv_tiles'  => 'tiles',
 			'bv_card'   => 'card',
@@ -170,9 +171,27 @@ class BV_Shortcodes {
 			'placeholder' => __( 'Registration number (e.g. AB12345)', 'bruktdeler-vegvesen' ),
 			'button'      => __( 'Search', 'bruktdeler-vegvesen' ),
 			'max_width'   => '',
+			'message'     => '1',
 			'el_class'    => '',
 			'css'         => '',
 		), $atts, 'bv_search' );
+
+		// Short message right under the field when a search found nothing (so it is visible without scrolling).
+		$a['message_text']   = '';
+		$a['message_status'] = '';
+		if ( '1' === $a['message'] && '' !== BV_Context::requested() ) {
+			$l = BV_Context::current();
+			if ( $l && 'funnet' !== $l['status'] ) {
+				$texts = array(
+					/* translators: %s: the registration number or VIN that was searched for. */
+					'ikke_funnet' => sprintf( __( 'We found no vehicle with “%s”. Check that the number is correct.', 'bruktdeler-vegvesen' ), $l['query'] ),
+					'ugyldig'     => __( 'Enter a registration number (e.g. AB12345) or a 17-character VIN.', 'bruktdeler-vegvesen' ),
+					'feil'        => $l['error'],
+				);
+				$a['message_text']   = $texts[ $l['status'] ] ?? '';
+				$a['message_status'] = $l['status'];
+			}
+		}
 
 		// max_width="600" → 600px; also accepts 80%, 40rem etc. Empty = full width (hero: 820px).
 		$mw = trim( (string) $a['max_width'] );
@@ -235,6 +254,21 @@ class BV_Shortcodes {
 			'url'   => BV_Render::image_url( $l['data'] ),
 			'alt'   => $l['data']['merke_modell'] ?? '',
 			'class' => BV_Render::classes( 'bv bv-image', $a ),
+		) );
+	}
+
+	/* [bv_logo size="64"] – brand logo; outputs nothing if the make has no logo. */
+	public static function logo( $atts ) {
+		$a = shortcode_atts( array( 'size' => '64', 'regnr' => '', 'el_class' => '', 'css' => '' ), $atts, 'bv_logo' );
+		$l = self::lookup( $a );
+		if ( ! self::found( $l ) || empty( $l['data']['merke_logo'] ) ) {
+			return '';
+		}
+		return BV_Render::template( 'logo', array(
+			'url'   => $l['data']['merke_logo'],
+			'alt'   => $l['data']['merke'] ?? '',
+			'size'  => max( 16, min( 400, (int) $a['size'] ) ),
+			'class' => BV_Render::classes( 'bv bv-logo', $a ),
 		) );
 	}
 
@@ -312,7 +346,7 @@ class BV_Shortcodes {
 	public static function card( $atts ) {
 		$a = shortcode_atts( array(
 			'tiles' => self::DEFAULT_TILES, 'general' => self::TABLE_GENERAL, 'dates' => self::TABLE_DATES, 'miljo' => self::TABLE_MILJO,
-			'print' => '1', 'image' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
+			'print' => '1', 'image' => '1', 'logo' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_card' );
 		$l = self::lookup( $a );
 		if ( ! $l ) {

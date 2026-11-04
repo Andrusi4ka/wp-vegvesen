@@ -36,6 +36,7 @@ class BV_Fields {
 			'merke'             => array( 'group' => $g_general, 'label' => __( 'Make', 'bruktdeler-vegvesen' ), 'desc' => __( 'Manufacturer', 'bruktdeler-vegvesen' ), 'case' => 'title', 'paths' => array( 'td.generelt.merke.0.merke' ) ),
 			'modell'            => array( 'group' => $g_general, 'label' => __( 'Model', 'bruktdeler-vegvesen' ), 'desc' => __( 'Model (trade name)', 'bruktdeler-vegvesen' ), 'case' => 'title', 'paths' => array( 'td.generelt.handelsbetegnelse.0' ) ),
 			'merke_modell'      => array( 'group' => $g_general, 'label' => __( 'Vehicle', 'bruktdeler-vegvesen' ), 'desc' => __( 'Make + model', 'bruktdeler-vegvesen' ) ),
+			'merke_logo'        => array( 'group' => $g_general, 'label' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'desc' => __( 'URL of the brand logo (empty if there is none)', 'bruktdeler-vegvesen' ) ),
 			'variant'           => array( 'group' => $g_general, 'label' => __( 'Variant', 'bruktdeler-vegvesen' ), 'desc' => __( 'Variant / type designation', 'bruktdeler-vegvesen' ), 'case' => 'title', 'paths' => array( 'td.generelt.typebetegnelse' ) ),
 			'karosseri'         => array( 'group' => $g_general, 'label' => __( 'Body type', 'bruktdeler-vegvesen' ), 'desc' => __( 'Body type (e.g. estate)', 'bruktdeler-vegvesen' ), 'clean' => 'code', 'paths' => array( 'td.karosseriOgLasteplan.karosseritype.kodeNavn', 'td.karosseriOgLasteplan.karosseritype.kodeBeskrivelse' ) ),
 			'kategori'          => array( 'group' => $g_general, 'label' => __( 'Vehicle category', 'bruktdeler-vegvesen' ), 'desc' => __( 'Technical code (M1, N1…)', 'bruktdeler-vegvesen' ), 'paths' => array( 'godkjenning.tekniskGodkjenning.kjoretoyklassifisering.tekniskKode.kodeVerdi' ) ),
@@ -195,6 +196,9 @@ class BV_Fields {
 			$data['regnr_formatted'] = self::format_plate( $data['regnr'] );
 		}
 		$data['merke_modell'] = trim( ( $data['merke'] ?? '' ) . ' ' . ( $data['modell'] ?? '' ) );
+		if ( ! empty( $data['merke'] ) ) {
+			$data['merke_logo'] = BV_Render::logo_url( $data['merke'] );
+		}
 		if ( ! empty( $data['effekt_kw'] ) ) {
 			$data['effekt_hk'] = (int) round( $data['effekt_kw'] * 1.35962 );
 			/* translators: 1: power in kW, 2: power in horsepower. */

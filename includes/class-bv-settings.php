@@ -22,6 +22,8 @@ class BV_Settings {
 			'preview_regnr' => 'AB12345',
 			'eu_warn_days'  => 60,
 			'primary_color' => '',
+			'scroll'        => 1,
+			'scroll_offset' => '',
 		);
 	}
 

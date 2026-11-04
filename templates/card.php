@@ -24,6 +24,9 @@ $r = $a['regnr'] ? ' regnr="' . esc_attr( $a['regnr'] ) . '"' : '';
 			<?php echo do_shortcode( '[bv_image' . $r . ']' ); // phpcs:ignore ?>
 		<?php endif; ?>
 		<div class="bv-card__name">
+			<?php if ( '1' === $a['logo'] ) : ?>
+				<?php echo do_shortcode( '[bv_logo size="64"' . $r . ']' ); // phpcs:ignore ?>
+			<?php endif; ?>
 			<h2 class="bv-card__title"><?php echo esc_html( $l['data']['merke_modell'] ?? '' ); ?></h2>
 			<p class="bv-card__sub"><?php echo esc_html( implode( ' · ', array_filter( array( $l['data']['registrert_aar'] ?? '', $l['data']['kategori_navn'] ?? '' ) ) ) ); ?></p>
 		</div>

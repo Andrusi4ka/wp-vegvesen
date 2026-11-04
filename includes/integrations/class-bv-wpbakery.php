@@ -34,6 +34,7 @@ class BV_WPBakery {
 				array( 'type' => 'attach_image', 'heading' => __( 'Background image (banner)', 'bruktdeler-vegvesen' ), 'param_name' => 'image' ),
 				array( 'type' => 'textfield', 'heading' => __( 'Placeholder', 'bruktdeler-vegvesen' ), 'param_name' => 'placeholder', 'description' => __( 'Empty = default text in the site language.', 'bruktdeler-vegvesen' ) ),
 				array( 'type' => 'textfield', 'heading' => __( 'Button text', 'bruktdeler-vegvesen' ), 'param_name' => 'button', 'description' => __( 'Empty = default text in the site language.', 'bruktdeler-vegvesen' ) ),
+				array( 'type' => 'dropdown', 'heading' => __( 'Message under the field', 'bruktdeler-vegvesen' ), 'param_name' => 'message', 'value' => $yes_no, 'description' => __( 'Shows "not found" or an error right under the field, so it is visible without scrolling.', 'bruktdeler-vegvesen' ) ),
 				array( 'type' => 'textfield', 'heading' => __( 'Max width', 'bruktdeler-vegvesen' ), 'param_name' => 'max_width', 'description' => __( 'E.g. 600 (px) or 80%. Empty = full width of the column (banner: 820px).', 'bruktdeler-vegvesen' ) ),
 			), $common ),
 		) ) );
@@ -49,6 +50,7 @@ class BV_WPBakery {
 				array( 'type' => 'textfield', 'heading' => __( '"Environment and consumption" fields', 'bruktdeler-vegvesen' ), 'param_name' => 'miljo', 'value' => BV_Shortcodes::TABLE_MILJO ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Print button', 'bruktdeler-vegvesen' ), 'param_name' => 'print', 'value' => $yes_no ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Picture', 'bruktdeler-vegvesen' ), 'param_name' => 'image', 'value' => $yes_no ),
+				array( 'type' => 'dropdown', 'heading' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'param_name' => 'logo', 'value' => $yes_no ),
 			), $common ),
 		) ) );
 
@@ -85,6 +87,15 @@ class BV_WPBakery {
 			'params'      => array_merge( array(
 				array( 'type' => 'textfield', 'heading' => __( 'Text when found', 'bruktdeler-vegvesen' ), 'param_name' => 'found', 'description' => __( 'Empty = default text in the site language.', 'bruktdeler-vegvesen' ) ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Show last updated date', 'bruktdeler-vegvesen' ), 'param_name' => 'updated', 'value' => $yes_no ),
+			), $common ),
+		) ) );
+
+		vc_map( array_merge( $base, array(
+			'name'        => __( 'Brand logo', 'bruktdeler-vegvesen' ),
+			'base'        => 'bv_logo',
+			'description' => __( 'Logo of the make (own upload "Make logo" or the logo set)', 'bruktdeler-vegvesen' ),
+			'params'      => array_merge( array(
+				array( 'type' => 'textfield', 'heading' => __( 'Size (px)', 'bruktdeler-vegvesen' ), 'param_name' => 'size', 'value' => '64' ),
 			), $common ),
 		) ) );
 

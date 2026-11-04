@@ -47,6 +47,8 @@ class BV_Admin {
 		$out['preview_regnr'] = strtoupper( sanitize_text_field( $in['preview_regnr'] ?? '' ) );
 		$out['eu_warn_days']  = absint( $in['eu_warn_days'] ?? 60 );
 		$out['primary_color'] = sanitize_hex_color( $in['primary_color'] ?? '' ) ?: '';
+		$out['scroll']        = empty( $in['scroll'] ) ? 0 : 1;
+		$out['scroll_offset'] = isset( $in['scroll_offset'] ) && '' !== trim( (string) $in['scroll_offset'] ) ? (string) absint( $in['scroll_offset'] ) : '';
 		return $out;
 	}
 
@@ -153,6 +155,38 @@ class BV_Admin {
 					</tr>
 				</table>
 
+				<h2 class="title"><?php esc_html_e( 'After a search', 'bruktdeler-vegvesen' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Scroll to the result', 'bruktdeler-vegvesen' ); ?></th>
+						<td>
+							<label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[scroll]" value="1" <?php checked( $s['scroll'] ); ?>> <?php esc_html_e( 'Scroll the page smoothly to the result after a search', 'bruktdeler-vegvesen' ); ?></label>
+							<p class="description"><?php echo wp_kses( __( 'Target: the element with the class <code>bv-scroll-target</code> (add it in "Extra class name" of a row or element). Without it: the first visible block with <code>bv-if-found</code> / <code>bv-if-notfound</code>, the vehicle card or another plugin block.', 'bruktdeler-vegvesen' ), array( 'code' => array() ) ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="bv_scroll_offset"><?php esc_html_e( 'Space above the result', 'bruktdeler-vegvesen' ); ?></label></th>
+						<td><input type="number" min="0" id="bv_scroll_offset" name="<?php echo esc_attr( $name ); ?>[scroll_offset]" value="<?php echo esc_attr( $s['scroll_offset'] ); ?>" class="small-text" placeholder="auto"> px
+							<p class="description"><?php esc_html_e( 'Empty = automatic (height of a sticky header + a small gap).', 'bruktdeler-vegvesen' ); ?></p></td>
+					</tr>
+				</table>
+
+				<h2 class="title"><?php esc_html_e( 'Brand logos', 'bruktdeler-vegvesen' ); ?></h2>
+				<?php $bv_dirs = BV_Render::logo_dirs(); ?>
+				<p>
+					<?php
+					/* translators: %d: number of logos bundled with the plugin. */
+					printf( esc_html__( '%d logos are bundled with the plugin.', 'bruktdeler-vegvesen' ), (int) BV_Render::logo_count( 'bundled' ) );
+					?>
+				</p>
+				<p class="description"><?php echo wp_kses( __( 'Your own logo: upload an image to the Media Library and set its title to "<strong>Make logo</strong>", e.g. "Volkswagen logo". It is used instead of the bundled logo.', 'bruktdeler-vegvesen' ), array( 'strong' => array() ) ); ?></p>
+				<p class="description">
+					<?php
+					/* translators: 1: folder path, 2: number of files in it. */
+					printf( esc_html__( 'Or put files in %1$s (now: %2$d), named after the make: volkswagen.png, mercedes-benz.png, land-rover.svg. They also take priority and survive plugin updates.', 'bruktdeler-vegvesen' ), '<code>' . esc_html( str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $bv_dirs['custom']['path'] ) ) ) . '</code>', (int) BV_Render::logo_count( 'custom' ) );
+					?>
+				</p>
+
 				<?php submit_button( __( 'Save', 'bruktdeler-vegvesen' ) ); ?>
 			</form>
 		</div>
@@ -175,6 +209,7 @@ class BV_Admin {
 			'[bv_card]'                  => __( 'The whole vehicle card. Attributes: tiles, general, dates, miljo (field lists), print="0", image="0"', 'bruktdeler-vegvesen' ),
 			'[bv_plate]'                 => __( 'Number plate. size="small|large"', 'bruktdeler-vegvesen' ),
 			'[bv_status]'                => __( '"Vehicle found" + last updated date. found="your text", updated="0"', 'bruktdeler-vegvesen' ),
+			'[bv_logo size="64"]'        => __( 'Brand logo: a media library image titled "Make logo" (e.g. "Volkswagen logo"), otherwise the bundled logo. Nothing is shown if there is no logo.', 'bruktdeler-vegvesen' ),
 			'[bv_image]'                 => __( 'Vehicle picture: a media library image titled "Make Model" (e.g. "Volkswagen Passat"), otherwise a silhouette', 'bruktdeler-vegvesen' ),
 			'[bv_print]'                 => __( 'Print button. label="your text"', 'bruktdeler-vegvesen' ),
 			'[bv_tiles fields="registrert_aar,drivstoff,effekt,slagvolum"]' => __( 'Tiles with icons. columns="4"', 'bruktdeler-vegvesen' ),
@@ -277,6 +312,7 @@ class BV_Admin {
 				<tr><td><code class="bv-copy">bv-if-notfound</code></td><td><?php esc_html_e( 'visible only when the search found nothing or failed', 'bruktdeler-vegvesen' ); ?></td></tr>
 				<tr><td><code class="bv-copy">bv-if-empty</code></td><td><?php esc_html_e( 'visible only before a search (no number in the address)', 'bruktdeler-vegvesen' ); ?></td></tr>
 				<tr><td><code class="bv-copy">bv-if-searched</code></td><td><?php esc_html_e( 'visible after any search, found or not', 'bruktdeler-vegvesen' ); ?></td></tr>
+				<tr><td><code class="bv-copy">bv-scroll-target</code></td><td><?php esc_html_e( 'after a search the page scrolls to this element (see Settings → After a search)', 'bruktdeler-vegvesen' ); ?></td></tr>
 			</tbody></table>
 			<p class="description"><?php esc_html_e( 'In the WPBakery front-end editor all elements stay visible, so they can be edited.', 'bruktdeler-vegvesen' ); ?></p>
 

@@ -33,5 +33,11 @@ $style = $vars ? ' style="' . esc_attr( implode( ';', $vars ) ) . '"' : '';
 				<span><?php echo esc_html( $a['button'] ); ?></span>
 			</button>
 		</form>
+		<?php if ( ! empty( $a['message_text'] ) ) : ?>
+			<p class="bv-search__message bv-search__message--<?php echo esc_attr( $a['message_status'] ); ?>" role="status">
+				<?php echo BV_Icons::get( 'alert' ); // phpcs:ignore ?>
+				<span><?php echo esc_html( $a['message_text'] ); ?></span>
+			</p>
+		<?php endif; ?>
 	</div>
 </div>

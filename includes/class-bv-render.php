@@ -89,6 +89,89 @@ class BV_Render {
 		return '';
 	}
 
+	/**
+	 * Logo folders, in lookup order:
+	 * - custom: wp-content/uploads/bv-logos/ – your own files, survive plugin updates;
+	 * - bundled: the logo set shipped with the plugin (assets/logos/).
+	 */
+	public static function logo_dirs() {
+		$u = wp_upload_dir( null, false );
+		return array(
+			'custom'  => array(
+				'path' => trailingslashit( $u['basedir'] ) . 'bv-logos/',
+				'url'  => trailingslashit( $u['baseurl'] ) . 'bv-logos/',
+			),
+			'bundled' => array(
+				'path' => BV_DIR . 'assets/logos/',
+				'url'  => BV_URL . 'assets/logos/',
+			),
+		);
+	}
+
+	/** File names to try for a make: "Mercedes-Benz" → mercedes-benz, "VW" → volkswagen, "Land Rover" → land-rover. */
+	public static function logo_slugs( $merke ) {
+		$aliases = apply_filters( 'bv_logo_aliases', array(
+			'vw'             => 'volkswagen',
+			'mercedes'       => 'mercedes-benz',
+			'daimler-benz'   => 'mercedes-benz',
+			'citroën'        => 'citroen',
+			'škoda'          => 'skoda',
+			'rolls-royce'    => 'rolls-royce',
+			'ds-automobiles' => 'ds',
+			'mini-bmw'       => 'mini',
+		) );
+		$slug  = sanitize_title( remove_accents( $merke ) );
+		$first = strtok( $slug, '-' );
+		$slugs = array( $aliases[ $slug ] ?? $slug, $slug, $aliases[ $first ] ?? $first );
+		return array_values( array_unique( array_filter( $slugs ) ) );
+	}
+
+	/**
+	 * Brand logo URL. Order:
+	 * 1. filter 'bv_brand_logo';
+	 * 2. media library image titled "<Make> logo" (e.g. "Volkswagen logo") – your own upload wins;
+	 * 3. your file in wp-content/uploads/bv-logos/<make>.svg|webp|png|jpg;
+	 * 4. the logo set bundled with the plugin.
+	 */
+	public static function logo_url( $merke ) {
+		$merke = trim( (string) $merke );
+		if ( '' === $merke ) {
+			return '';
+		}
+		$url = apply_filters( 'bv_brand_logo', '', $merke );
+		if ( $url ) {
+			return $url;
+		}
+		$ids = get_posts( array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'post_mime_type' => 'image',
+			'title'          => $merke . ' logo',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+		) );
+		if ( $ids ) {
+			return wp_get_attachment_image_url( $ids[0], 'medium' );
+		}
+		foreach ( self::logo_dirs() as $dir ) {
+			foreach ( self::logo_slugs( $merke ) as $slug ) {
+				foreach ( array( 'svg', 'webp', 'png', 'jpg' ) as $ext ) {
+					if ( file_exists( $dir['path'] . $slug . '.' . $ext ) ) {
+						return $dir['url'] . $slug . '.' . $ext;
+					}
+				}
+			}
+		}
+		return '';
+	}
+
+	/** Number of logo files in a folder ('custom' or 'bundled'), for the settings page. */
+	public static function logo_count( $which = 'bundled' ) {
+		$dirs  = self::logo_dirs();
+		$files = is_dir( $dirs[ $which ]['path'] ) ? scandir( $dirs[ $which ]['path'] ) : array();
+		return count( preg_grep( '/\.(svg|webp|png|jpg)$/i', (array) $files ) );
+	}
+
 	public static function silhouette() {
 		return '<svg class="bv-silhouette" viewBox="0 0 240 100" aria-hidden="true"><path fill="currentColor" d="M12 72v-14c0-6 4-10 10-11l46-6 26-19c4-3 9-4 14-4h80c7 0 12 3 16 8l18 22c6 1 10 6 10 12v12c0 3-2 5-5 5h-17a22 22 0 0 0-43 0H75a22 22 0 0 0-43 0H17c-3 0-5-2-5-5z"/><path fill="#fff" opacity=".55" d="M76 42 99 26c3-2 6-3 9-3h30v19zM145 23h36c5 0 9 2 12 6l12 13h-60z"/><circle cx="53.5" cy="75" r="17" fill="currentColor"/><circle cx="53.5" cy="75" r="8" fill="#fff" opacity=".6"/><circle cx="187" cy="75" r="17" fill="currentColor"/><circle cx="187" cy="75" r="8" fill="#fff" opacity=".6"/></svg>';
 	}
