@@ -3,7 +3,7 @@ Tags: vegvesen, vehicle, registration number, car parts, wpbakery
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,12 @@ Vegvesen has no photos. Upload a photo to the media library and give it the titl
 Yes. Put an SVG file in `wp-content/uploads/bv-bodies/`, named after the body type (`sedan.svg`, `hatchback.svg`, `estate.svg`, `coupe.svg`, `convertible.svg`, `mpv.svg`, `pickup.svg`, `pickup-double.svg`, `van.svg`, `truck.svg`, `tractor.svg`, `bus.svg`, `camper.svg`, `trailer.svg`). It replaces the bundled one and survives plugin updates.
 
 == Changelog ==
+
+= 1.5.1 =
+* Vehicle card: "Message when nothing is found" can be turned off (`notice="0"`), e.g. when the search field already shows it.
+* The "not found" message of the card is a box like the tables, so its text no longer sits on the edge of the column.
+* EU button: a CSS class typed with a dot (".btn-modal") now works as "btn-modal".
+* "Vehicle not found": the icon (and the line of the message under the search field) is red instead of yellow.
 
 = 1.5.0 =
 * Next EU inspection: a status icon to the left of the date – a check when it is fine, a warning sign when the deadline is close, a cross when it has passed.

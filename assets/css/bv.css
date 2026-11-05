@@ -187,8 +187,11 @@
 .bv-row--utlopt dt, .bv-row--utlopt dd { color: var(--bv-danger); }
 
 /* ---------- Notice ---------- */
+/* A box like the tables, so the text never sits on the edge of the column. */
 .bv-notice { display: flex; gap: 16px; align-items: flex-start; }
-.bv-notice__icon { width: 30px; height: 30px; color: var(--bv-warning); }
+.bv.bv-card.bv-notice { box-sizing: border-box; max-width: 100%; padding: 18px 22px; background: var(--bv-bg); border: 1px solid var(--bv-border); border-radius: var(--bv-radius-sm); }
+.bv-notice > div { min-width: 0; overflow-wrap: anywhere; }
+.bv-notice__icon { width: 30px; height: 30px; color: var(--bv-danger); } /* red, not the theme colour */
 .bv-notice--feil .bv-notice__icon { color: var(--bv-danger); }
 .bv .bv-notice__title { margin: 0 0 6px; color: var(--bv-title); font-size: 20px; }
 .bv-notice p { margin: 0; }
@@ -290,9 +293,9 @@
 	display: flex; align-items: center; gap: 10px; width: fit-content; max-width: min(100%, var(--bv-search-max, 100%));
 	margin: 12px 0 0; padding: 10px 14px; border-radius: var(--bv-radius-sm);
 	background: var(--bv-bg); color: var(--bv-title); box-shadow: var(--bv-shadow); font-size: 15px; line-height: 1.4;
-	border-left: 4px solid var(--bv-warning);
+	border-left: 4px solid var(--bv-danger);
 }
-.bv-search__message .bv-icon { width: 22px; height: 22px; color: var(--bv-warning); }
+.bv-search__message .bv-icon { width: 22px; height: 22px; color: var(--bv-danger); } /* red, not the theme colour */
 .bv-search__message--feil { border-left-color: var(--bv-danger); }
 .bv-search__message--feil .bv-icon { color: var(--bv-danger); }
 

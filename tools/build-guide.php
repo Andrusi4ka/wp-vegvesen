@@ -334,7 +334,7 @@ The EU inspection deadline has passed ([bv field="neste_eu"]).
 <thead><tr><th style="width:36%">Shortcode</th><th>What it shows, main attributes</th></tr></thead>
 <tbody>
 <tr><td><code>[bv_search]</code></td><td>Search field. <code>layout="inline|hero|compact"</code>, <code>title</code>, <code>subtitle</code>, <code>image</code>, <code>placeholder</code>, <code>button</code>, <code>max_width</code>, <code>title_tag="h1"</code></td></tr>
-<tr><td><code>[bv_card]</code></td><td>The whole vehicle card. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (field lists), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
+<tr><td><code>[bv_card]</code></td><td>The whole vehicle card. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (field lists), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>notice="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
 <tr><td><code>[bv_tiles fields="…"]</code></td><td>Key figures with icons. <code>columns="4"</code></td></tr>
 <tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Table of fields. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Brand"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code>. The "Next EU inspection" row gets a status icon and, when the deadline is close or passed, a button; both are set in the element (WPBakery tab "EU inspection"), also on <code>[bv_card]</code>.</td></tr>
 <tr><td><code>[bv_plate]</code></td><td>Number plate. <code>size="small|large"</code></td></tr>
@@ -502,7 +502,7 @@ Fristen for EU-kontroll er passert ([bv field="neste_eu"]).
 <thead><tr><th style="width:36%">Kortkode</th><th>Hva den viser, viktigste attributter</th></tr></thead>
 <tbody>
 <tr><td><code>[bv_search]</code></td><td>Søkefelt. <code>layout="inline|hero|compact"</code>, <code>title</code>, <code>subtitle</code>, <code>image</code>, <code>placeholder</code>, <code>button</code>, <code>max_width</code>, <code>title_tag="h1"</code></td></tr>
-<tr><td><code>[bv_card]</code></td><td>Hele kjøretøykortet. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (feltlister), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
+<tr><td><code>[bv_card]</code></td><td>Hele kjøretøykortet. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (feltlister), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>notice="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
 <tr><td><code>[bv_tiles fields="…"]</code></td><td>Nøkkeltall med ikoner. <code>columns="4"</code></td></tr>
 <tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Tabell med felt. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Bilmerke"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code>. Raden «Neste EU-kontroll» får statusikon og, når fristen nærmer seg eller er utløpt, en knapp; begge stilles inn i elementet (WPBakery-fanen «EU-kontroll»), også på <code>[bv_card]</code>.</td></tr>
 <tr><td><code>[bv_plate]</code></td><td>Skilt. <code>size="small|large"</code></td></tr>

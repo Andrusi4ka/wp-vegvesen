@@ -424,7 +424,7 @@ class BV_Shortcodes {
 	public static function card( $atts ) {
 		$a = shortcode_atts( array(
 			'tiles' => self::DEFAULT_TILES, 'general' => self::TABLE_GENERAL, 'dates' => self::TABLE_DATES, 'miljo' => self::TABLE_MILJO,
-			'print' => '1', 'image' => '1', 'logo' => '1', 'title_tag' => 'h2', 'table_title_tag' => 'h3',
+			'print' => '1', 'image' => '1', 'logo' => '1', 'notice' => '1', 'title_tag' => 'h2', 'table_title_tag' => 'h3',
 			'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_card' );
 		// EU inspection settings (tab "EU inspection") are passed on to the dates table.
@@ -437,6 +437,10 @@ class BV_Shortcodes {
 		}
 		$class = BV_Render::classes( 'bv bv-card', $a );
 		if ( ! self::found( $l ) ) {
+			// notice="0": no message in place of the card (e.g. when the search field already shows it).
+			if ( '0' === (string) $a['notice'] ) {
+				return '';
+			}
 			return BV_Render::template( 'notice', array( 'l' => $l, 'class' => $class, 'tag' => $a['table_title_tag'] ) );
 		}
 		return BV_Render::template( 'card', array( 'l' => $l, 'a' => $a, 'class' => $class ) );

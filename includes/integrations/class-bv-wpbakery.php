@@ -85,6 +85,8 @@ class BV_WPBakery {
 				array( 'type' => 'dropdown', 'heading' => __( 'Print button', 'bruktdeler-vegvesen' ), 'param_name' => 'print', 'value' => $yes_no ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Picture', 'bruktdeler-vegvesen' ), 'param_name' => 'image', 'value' => $yes_no ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'param_name' => 'logo', 'value' => $yes_no ),
+				array( 'type' => 'dropdown', 'heading' => __( 'Message when nothing is found', 'bruktdeler-vegvesen' ), 'param_name' => 'notice', 'value' => $yes_no,
+					'description' => __( '"Vehicle not found" or an error in place of the card. Turn it off when the search field already shows the message.', 'bruktdeler-vegvesen' ) ),
 				$tag_param( 'title_tag', __( 'Vehicle name tag', 'bruktdeler-vegvesen' ), 'h2' ),
 				$tag_param( 'table_title_tag', __( 'Table titles tag', 'bruktdeler-vegvesen' ), 'h3' ),
 			), $eu_params, $common ),

@@ -1452,5 +1452,11 @@ msgstr ""
 msgid "The button appears to the left of the status icon. Without a link it is a button for scripts: give it a CSS class (the registration number is in data-regnr)."
 msgstr ""
 
+msgid "Message when nothing is found"
+msgstr ""
+
+msgid "\"Vehicle not found\" or an error in place of the card. Turn it off when the search field already shows the message."
+msgstr ""
+
 msgid "The button appears to the left of the status icon, only if a link is set."
 msgstr ""

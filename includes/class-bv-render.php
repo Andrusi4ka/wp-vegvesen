@@ -149,7 +149,11 @@ class BV_Render {
 			$link['url'] = self::link_with_tokens( $link['url'], $lookup );
 		}
 		$title  = isset( $a['eu_btn_title'] ) && '' !== trim( $a['eu_btn_title'] ) ? $a['eu_btn_title'] : __( 'Contact us', 'bruktdeler-vegvesen' );
-		$class  = trim( 'bv-eu-btn bv-eu-btn--' . $status . ' ' . ( $a['eu_btn_class'] ?? '' ) );
+		// Own classes: ".btn-modal" (with a dot, as in CSS) becomes "btn-modal".
+		$own    = array_filter( array_map( function ( $c ) {
+			return sanitize_html_class( ltrim( $c, '.' ) );
+		}, preg_split( '/[\s,]+/', (string) ( $a['eu_btn_class'] ?? '' ) ) ) );
+		$class  = trim( 'bv-eu-btn bv-eu-btn--' . $status . ' ' . implode( ' ', $own ) );
 		$custom = trim( (string) ( $a['eu_btn_custom_attributes'] ?? '' ) );
 		// The registration number for scripts: data-regnr on the button.
 		$regnr  = (string) ( $lookup['data']['regnr'] ?? '' );
