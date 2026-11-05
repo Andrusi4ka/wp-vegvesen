@@ -17,11 +17,77 @@
 		input.value = value;
 	} );
 
+	/* ---------- Print only the vehicle information ---------- */
+
+	var printRoot = null;
+
+	function isShown( el ) {
+		return !! ( el && el.getClientRects().length );
+	}
+
+	// What to print: elements marked .bv-print-area, else the card around the button, else all vehicle cards.
+	function printTargets( button ) {
+		var list = Array.prototype.filter.call( document.querySelectorAll( '.bv-print-area' ), isShown );
+		if ( ! list.length && button && button.closest( '.bv-card' ) ) {
+			list = [ button.closest( '.bv-card' ) ];
+		}
+		if ( ! list.length ) {
+			list = Array.prototype.filter.call( document.querySelectorAll( '.bv-card' ), isShown );
+		}
+		// Skip blocks that sit inside another chosen block.
+		return list.filter( function ( el ) {
+			return ! list.some( function ( other ) {
+				return other !== el && other.contains( el );
+			} );
+		} );
+	}
+
+	function preparePrint( button ) {
+		cleanupPrint();
+		var targets = printTargets( button );
+		if ( ! targets.length ) {
+			return false; // Nothing vehicle-related on the page: print it normally.
+		}
+		printRoot    = document.createElement( 'div' );
+		printRoot.id = 'bv-print-root';
+		targets.forEach( function ( el ) {
+			var copy = el.cloneNode( true );
+			Array.prototype.forEach.call( copy.querySelectorAll( '[id]' ), function ( n ) {
+				n.removeAttribute( 'id' );
+			} );
+			Array.prototype.forEach.call( copy.querySelectorAll( 'img[loading]' ), function ( img ) {
+				img.loading = 'eager';
+			} );
+			printRoot.appendChild( copy );
+		} );
+		document.body.appendChild( printRoot );
+		document.documentElement.classList.add( 'bv-printing' );
+		return true;
+	}
+
+	function cleanupPrint() {
+		if ( printRoot && printRoot.parentNode ) {
+			printRoot.parentNode.removeChild( printRoot );
+		}
+		printRoot = null;
+		document.documentElement.classList.remove( 'bv-printing' );
+	}
+
 	document.addEventListener( 'click', function ( e ) {
-		if ( e.target.closest && e.target.closest( '[data-bv-print]' ) ) {
+		var button = e.target.closest ? e.target.closest( '[data-bv-print]' ) : null;
+		if ( button ) {
+			preparePrint( button );
 			window.print();
 		}
 	} );
+
+	// Ctrl+P / the browser's print menu: also only the vehicle information.
+	window.addEventListener( 'beforeprint', function () {
+		if ( ! printRoot ) {
+			preparePrint( null );
+		}
+	} );
+	window.addEventListener( 'afterprint', cleanupPrint );
 
 	/* ---------- Scroll to the result after a search ---------- */
 

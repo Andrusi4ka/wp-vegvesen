@@ -108,6 +108,130 @@ class BV_Render {
 		return in_array( $tag, self::title_tags(), true ) ? $tag : $default;
 	}
 
+	/**
+	 * Status icon for the EU inspection: ok = check, snart = warning, utlopt = cross.
+	 * Returns '' for an unknown status.
+	 */
+	public static function eu_icon( $status ) {
+		$map = array(
+			'ok'     => array( 'circle-check', __( 'Approved', 'bruktdeler-vegvesen' ) ),
+			'snart'  => array( 'triangle-alert', __( 'Due soon', 'bruktdeler-vegvesen' ) ),
+			'utlopt' => array( 'circle-x', __( 'Overdue', 'bruktdeler-vegvesen' ) ),
+		);
+		if ( ! isset( $map[ $status ] ) ) {
+			return '';
+		}
+		return '<span class="bv-eu-icon bv-eu-icon--' . esc_attr( $status ) . '" role="img" aria-label="' . esc_attr( $map[ $status ][1] ) . '" title="' . esc_attr( $map[ $status ][1] ) . '">' . BV_Icons::get( $map[ $status ][0] ) . '</span>';
+	}
+
+	/** Button style settings passed on to the WoodMart Button element (eu_btn_<name> → <name>). */
+	const WOODMART_STYLE_KEYS = array( 'style', 'shape', 'size', 'color', 'bg_color', 'color_scheme', 'custom_color_scheme', 'bg_color_hover', 'color_scheme_hover', 'custom_color_scheme_hover' );
+
+	/**
+	 * Button next to the EU inspection date (e.g. a link to a contact form). Configured in the element
+	 * (tab "EU inspection"): eu_show, eu_btn_title, eu_btn_link, eu_btn_custom_attributes, eu_btn_class
+	 * and the WoodMart style settings eu_btn_style, eu_btn_shape, eu_btn_size, eu_btn_color…
+	 * Outputs nothing when the deadline is fine (or not in eu_show). Without a link it is still shown and
+	 * works as a button for scripts (role="button", reachable with the keyboard) – e.g. via its CSS class.
+	 *
+	 * @param array $lookup Lookup result.
+	 * @param array $a      Element attributes.
+	 */
+	public static function eu_button( $lookup, $a = array() ) {
+		$status = $lookup['data']['eu_status'] ?? '';
+		$show   = isset( $a['eu_show'] ) && '' !== $a['eu_show'] ? (string) $a['eu_show'] : 'snart,utlopt';
+		if ( ! in_array( $status, array_map( 'trim', explode( ',', $show ) ), true ) ) {
+			return '';
+		}
+		$link    = self::parse_link( (string) ( $a['eu_btn_link'] ?? '' ) );
+		$no_link = '' === $link['url'];
+		if ( ! $no_link ) {
+			$link['url'] = self::link_with_tokens( $link['url'], $lookup );
+		}
+		$title  = isset( $a['eu_btn_title'] ) && '' !== trim( $a['eu_btn_title'] ) ? $a['eu_btn_title'] : __( 'Contact us', 'bruktdeler-vegvesen' );
+		$class  = trim( 'bv-eu-btn bv-eu-btn--' . $status . ' ' . ( $a['eu_btn_class'] ?? '' ) );
+		$custom = trim( (string) ( $a['eu_btn_custom_attributes'] ?? '' ) );
+		// The registration number for scripts: data-regnr on the button.
+		$regnr  = (string) ( $lookup['data']['regnr'] ?? '' );
+		if ( '' !== $regnr && false === stripos( $custom, 'data-regnr' ) ) {
+			$custom = ltrim( $custom . ',data-regnr|' . $regnr, ',' );
+		}
+		if ( $no_link && false === stripos( $custom, 'role|' ) ) {
+			$custom = ltrim( $custom . ',role|button,tabindex|0', ',' );
+		}
+
+		// WoodMart: the theme's own Button element, so it looks and works like any WoodMart button.
+		if ( function_exists( 'woodmart_shortcode_button' ) ) {
+			$atts = array(
+				'title'             => $title,
+				'link'              => $no_link ? '' : $link,
+				'custom_attributes' => $custom,
+				'el_class'          => $class,
+				'button_inline'     => 'yes',
+				'align'             => 'right',
+				'woodmart_css_id'   => (string) ( $a['woodmart_css_id'] ?? '' ),
+			);
+			foreach ( self::WOODMART_STYLE_KEYS as $k ) {
+				if ( isset( $a[ 'eu_btn_' . $k ] ) && '' !== $a[ 'eu_btn_' . $k ] ) {
+					$atts[ $k ] = $a[ 'eu_btn_' . $k ];
+				}
+			}
+			return '<span class="bv-eu-btn-wrap">' . woodmart_shortcode_button( $atts ) . '</span>';
+		}
+
+		// Another theme: a simple button styled by the plugin.
+		$attrs = '';
+		foreach ( array_filter( array_map( 'trim', explode( ',', $custom ) ) ) as $pair ) {
+			$kv  = array_map( 'trim', explode( '|', $pair, 2 ) );
+			$key = strtolower( $kv[0] );
+			if ( preg_match( '/^[a-z][a-z0-9_:.-]*$/', $key ) && 0 !== strpos( $key, 'on' ) && ! in_array( $key, array( 'href', 'class', 'style' ), true ) ) {
+				$attrs .= ' ' . $key . '="' . esc_attr( $kv[1] ?? '' ) . '"';
+			}
+		}
+		if ( $no_link ) {
+			// Without a link: a real <button> for scripts (role/tabindex are not needed on it).
+			$attrs = preg_replace( '/ (role|tabindex)="[^"]*"/', '', $attrs );
+			return '<button type="button" class="' . esc_attr( $class . ' bv-eu-btn--simple' ) . '"' . $attrs . '>' . esc_html( $title ) . '</button>';
+		}
+		if ( $link['target'] ) {
+			$attrs .= ' target="' . esc_attr( $link['target'] ) . '"';
+		}
+		$rel = trim( $link['rel'] . ( '_blank' === $link['target'] ? ' noopener' : '' ) );
+		if ( $rel ) {
+			$attrs .= ' rel="' . esc_attr( $rel ) . '"';
+		}
+		return '<a class="' . esc_attr( $class . ' bv-eu-btn--simple' ) . '" href="' . esc_url( $link['url'] ) . '"' . $attrs . '>' . esc_html( $title ) . '</a>';
+	}
+
+	/** A WPBakery link ("url:…|target:_blank|rel:…") or a plain URL → [ url, title, target, rel ]. */
+	public static function parse_link( $raw ) {
+		$link = array( 'url' => '', 'title' => '', 'target' => '', 'rel' => '' );
+		$raw  = trim( $raw );
+		if ( '' === $raw || '||' === $raw ) {
+			return $link;
+		}
+		if ( ! preg_match( '/(^|\|)(url|title|target|rel):/', $raw ) ) {
+			$link['url'] = $raw;
+			return $link;
+		}
+		foreach ( explode( '|', $raw ) as $part ) {
+			$kv = explode( ':', $part, 2 );
+			if ( 2 === count( $kv ) && array_key_exists( $kv[0], $link ) ) {
+				$link[ $kv[0] ] = trim( rawurldecode( $kv[1] ) );
+			}
+		}
+		return $link;
+	}
+
+	/** Fills {regnr} and {bv:field} in a link with the vehicle's values (URL-encoded), e.g. /kontakt/?regnr={regnr}. */
+	public static function link_with_tokens( $url, $lookup ) {
+		$data = $lookup['data'] ?? array();
+		$url  = str_replace( '{regnr}', rawurlencode( (string) ( $data['regnr'] ?? $lookup['query'] ?? '' ) ), $url );
+		return preg_replace_callback( '/\{bv:([a-z0-9_]+)\}/', function ( $m ) use ( $data ) {
+			return isset( $data[ $m[1] ] ) ? rawurlencode( BV_Fields::format( $m[1], $data[ $m[1] ] ) ) : '';
+		}, $url );
+	}
+
 	/** Message for a search that found nothing or failed (search field and [bv_card] notice). */
 	public static function status_message( $lookup ) {
 		switch ( $lookup['status'] ?? '' ) {

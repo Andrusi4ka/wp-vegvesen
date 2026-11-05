@@ -3,7 +3,7 @@ Tags: vegvesen, vehicle, registration number, car parts, wpbakery
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.2
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,13 @@ Vegvesen has no photos. Upload a photo to the media library and give it the titl
 Yes. Put an SVG file in `wp-content/uploads/bv-bodies/`, named after the body type (`sedan.svg`, `hatchback.svg`, `estate.svg`, `coupe.svg`, `convertible.svg`, `mpv.svg`, `pickup.svg`, `pickup-double.svg`, `van.svg`, `truck.svg`, `tractor.svg`, `bus.svg`, `camper.svg`, `trailer.svg`). It replaces the bundled one and survives plugin updates.
 
 == Changelog ==
+
+= 1.5.0 =
+* Next EU inspection: a status icon to the left of the date – a check when it is fine, a warning sign when the deadline is close, a cross when it has passed.
+* A button to the left of the icon when the deadline is close or passed, e.g. to a contact form. Set in the elements (tab "EU inspection" of the Vehicle card and Field table): when to show it, title, link, custom attributes and a CSS class (to trigger a popup or script). `{regnr}` in the link is replaced with the registration number (`/kontakt/?regnr={regnr}`). Without a link the button is still shown and works as a button for scripts; the registration number is in its `data-regnr` attribute.
+* With WoodMart the button is the theme's own Button element, with the same style settings: style, shape, size, predefined colour, background and text colours (idle and hover) and typography.
+* `[bv_eu_button]` shortcode and WPBakery element to place the button anywhere.
+* Printing (the Print button or Ctrl+P) prints only the vehicle information, in a compact layout that fits one A4 page. Mark your own blocks with the class `bv-print-area` to print those instead.
 
 = 1.4.2 =
 * "What's new" after an update: a window with the changes since the version you used before opens on the WP Vegvesen screens, and the Dashboard shows a notice that opens it. Once for each user who can see WP Vegvesen; not after a first install.

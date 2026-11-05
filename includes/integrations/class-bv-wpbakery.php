@@ -18,6 +18,23 @@ class BV_WPBakery {
 		$fields     = array_flip( BV_Fields::choices() );
 		$fields_tip = __( 'Comma separated. Field list: WP Vegvesen → Variables.', 'bruktdeler-vegvesen' );
 		$base       = array( 'category' => 'Vegvesen', 'icon' => 'dashicons dashicons-car', 'show_settings_on_create' => true );
+
+		// "EU inspection" tab for the card and the table: icon and button of the "Next EU inspection" row.
+		$eu_group  = __( 'EU inspection', 'bruktdeler-vegvesen' );
+		$eu_params = array_merge(
+			array(
+				array(
+					'type'        => 'checkbox',
+					'heading'     => __( 'Status icon', 'bruktdeler-vegvesen' ),
+					'param_name'  => 'eu_icon',
+					'group'       => $eu_group,
+					'value'       => array( __( 'Show an icon to the left of the date', 'bruktdeler-vegvesen' ) => 'yes' ),
+					'settings'    => array( 'default' => 'yes' ),
+					'description' => __( 'Check, warning or cross to the left of the date.', 'bruktdeler-vegvesen' ),
+				),
+			),
+			self::eu_button_params( $eu_group )
+		);
 		// "Title tag" dropdown (H1–H6, p, div, span); the look stays the same, only the HTML tag changes (SEO).
 		$tag_param = function ( $name, $heading, $default ) {
 			$tags = array();
@@ -70,7 +87,7 @@ class BV_WPBakery {
 				array( 'type' => 'dropdown', 'heading' => __( 'Brand logo', 'bruktdeler-vegvesen' ), 'param_name' => 'logo', 'value' => $yes_no ),
 				$tag_param( 'title_tag', __( 'Vehicle name tag', 'bruktdeler-vegvesen' ), 'h2' ),
 				$tag_param( 'table_title_tag', __( 'Table titles tag', 'bruktdeler-vegvesen' ), 'h3' ),
-			), $common ),
+			), $eu_params, $common ),
 		) ) );
 
 		vc_map( array_merge( $base, array(
@@ -107,6 +124,20 @@ class BV_WPBakery {
 				array( 'type' => 'textfield', 'heading' => __( 'Text when found', 'bruktdeler-vegvesen' ), 'param_name' => 'found', 'description' => __( 'Empty = default text in the site language.', 'bruktdeler-vegvesen' ) ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Show last updated date', 'bruktdeler-vegvesen' ), 'param_name' => 'updated', 'value' => $yes_no ),
 			), $common ),
+		) ) );
+
+		vc_map( array_merge( $base, array(
+			'name'        => __( 'EU inspection button', 'bruktdeler-vegvesen' ),
+			'base'        => 'bv_eu_button',
+			'description' => __( 'Shown only when the inspection deadline is close or passed', 'bruktdeler-vegvesen' ),
+			'params'      => array_merge( array(
+				array(
+					'type'       => 'checkbox',
+					'heading'    => __( 'Status icon', 'bruktdeler-vegvesen' ),
+					'param_name' => 'eu_icon',
+					'value'      => array( __( 'Show an icon next to the button', 'bruktdeler-vegvesen' ) => 'yes' ),
+				),
+			), self::eu_button_params( '' ), $common ),
 		) ) );
 
 		vc_map( array_merge( $base, array(
@@ -152,7 +183,98 @@ class BV_WPBakery {
 				array( 'type' => 'textfield', 'heading' => __( 'Fields', 'bruktdeler-vegvesen' ), 'param_name' => 'fields', 'value' => BV_Shortcodes::TABLE_GENERAL, 'description' => $fields_tip ),
 				array( 'type' => 'dropdown', 'heading' => __( 'Highlight row', 'bruktdeler-vegvesen' ), 'param_name' => 'highlight', 'value' => array_merge( array( __( '— none —', 'bruktdeler-vegvesen' ) => '' ), $fields ) ),
 				array( 'type' => 'textfield', 'heading' => __( 'Custom labels', 'bruktdeler-vegvesen' ), 'param_name' => 'labels', 'description' => __( 'E.g. merke:Brand,modell:Model', 'bruktdeler-vegvesen' ) ),
-			), $common ),
+			), $eu_params, $common ),
 		) ) );
+	}
+
+	/** Button settings of the WoodMart Button element that are reused (renamed with the eu_btn_ prefix). */
+	const WOODMART_BUTTON_PARAMS = array(
+		'title', 'link', 'custom_attributes',
+		'style', 'shape', 'size', 'color',
+		'bg_color', 'color_scheme', 'custom_color_scheme',
+		'bg_color_hover', 'color_scheme_hover', 'custom_color_scheme_hover',
+	);
+
+	/**
+	 * Settings of the EU inspection button: when to show it, plus the settings of the theme's Button element
+	 * (WoodMart: title, link, custom attributes, style, shape, size, colours, typography), and a CSS class.
+	 * With WoodMart the fields are the theme's own (same look and options as its Button element, the theme
+	 * generates the CSS for colours and typography); with another theme a simple set is used.
+	 *
+	 * @param string $group Tab name ('' = General).
+	 */
+	public static function eu_button_params( $group ) {
+		$g      = $group ? array( 'group' => $group ) : array();
+		$params = array(
+			array(
+				'type'        => 'dropdown',
+				'heading'     => __( 'Show the button', 'bruktdeler-vegvesen' ),
+				'param_name'  => 'eu_show',
+				'value'       => array(
+					__( 'When close or overdue', 'bruktdeler-vegvesen' )           => 'snart,utlopt',
+					__( 'Only when overdue', 'bruktdeler-vegvesen' )               => 'utlopt',
+					__( 'Only when the deadline is close', 'bruktdeler-vegvesen' ) => 'snart',
+					__( 'Never', 'bruktdeler-vegvesen' )                           => 'none',
+				),
+				'description' => __( 'The button appears to the left of the status icon. Without a link it is a button for scripts: give it a CSS class (the registration number is in data-regnr).', 'bruktdeler-vegvesen' ),
+			) + $g,
+		);
+		$class = array(
+			'type'        => 'textfield',
+			'heading'     => __( 'Button CSS class', 'bruktdeler-vegvesen' ),
+			'param_name'  => 'eu_btn_class',
+			'description' => __( 'Added to the button itself, e.g. to open a popup or run a script on click.', 'bruktdeler-vegvesen' ),
+			'edit_field_class' => 'vc_col-sm-6 vc_column',
+		) + $g;
+		$link_tip = __( '{regnr} in the link is replaced with the registration number, e.g. /kontakt/?regnr={regnr}', 'bruktdeler-vegvesen' );
+
+		if ( function_exists( 'woodmart_get_button_shortcode_params' ) && function_exists( 'woodmart_shortcode_button' ) ) {
+			// WoodMart: the theme generates CSS for its colour/typography fields from "woodmart_css_id".
+			$params[] = array( 'type' => 'woodmart_css_id', 'param_name' => 'woodmart_css_id' );
+			$params[] = array( 'type' => 'woodmart_title_divider', 'title' => __( 'Button', 'bruktdeler-vegvesen' ), 'param_name' => 'eu_btn_divider' ) + $g;
+
+			$style_added = false;
+			foreach ( (array) woodmart_get_button_shortcode_params() as $p ) {
+				$name = is_array( $p ) ? ( $p['param_name'] ?? '' ) : '';
+				if ( ! $name || ( ! in_array( $name, self::WOODMART_BUTTON_PARAMS, true ) && 0 !== strpos( $name, 'typography_' ) ) ) {
+					continue;
+				}
+				if ( 'style' === $name && ! $style_added ) {
+					$params[]    = $class; // The class goes right after title, link and custom attributes.
+					$params[]    = array( 'type' => 'woodmart_title_divider', 'title' => __( 'Button style', 'bruktdeler-vegvesen' ), 'param_name' => 'eu_btn_style_divider' ) + $g;
+					$style_added = true;
+				}
+				$p['param_name'] = 'eu_btn_' . $name;
+				unset( $p['holder'] );
+				if ( isset( $p['dependency']['element'] ) ) {
+					$p['dependency']['element'] = 'eu_btn_' . $p['dependency']['element'];
+				}
+				if ( isset( $p['std'] ) ) { // WPBakery 9: defaults live in settings['default'].
+					$p['settings']['default'] = $p['std'];
+					unset( $p['std'] );
+				}
+				if ( 'link' === $name ) {
+					$p['description'] = $link_tip;
+				}
+				if ( $group ) {
+					$p['group'] = $group;
+				} else {
+					unset( $p['group'] );
+				}
+				$params[] = $p;
+			}
+			if ( ! $style_added ) {
+				$params[] = $class;
+			}
+			return $params;
+		}
+
+		// Another theme: a simple button.
+		return array_merge( $params, array(
+			array( 'type' => 'textfield', 'heading' => __( 'Title', 'bruktdeler-vegvesen' ), 'param_name' => 'eu_btn_title', 'edit_field_class' => 'vc_col-sm-6 vc_column' ) + $g,
+			array( 'type' => 'vc_link', 'heading' => __( 'Link', 'bruktdeler-vegvesen' ), 'param_name' => 'eu_btn_link', 'description' => $link_tip, 'edit_field_class' => 'vc_col-sm-6 vc_column' ) + $g,
+			array( 'type' => 'textfield', 'heading' => __( 'Custom attributes', 'bruktdeler-vegvesen' ), 'param_name' => 'eu_btn_custom_attributes', 'description' => __( 'key|value pairs separated by commas, e.g. data-popup|contact', 'bruktdeler-vegvesen' ), 'edit_field_class' => 'vc_col-sm-6 vc_column' ) + $g,
+			$class,
+		) );
 	}
 }

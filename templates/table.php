@@ -3,7 +3,7 @@
  * Info panel with label/value rows. Override: {theme}/bruktdeler-vegvesen/table.php
  *
  * @var array  $a     Attributes (title, icon…).
- * @var array  $rows  [ key, label, value, class, color ].
+ * @var array  $rows  [ key, label, value, class, color, icon (HTML), button (HTML) ].
  * @var string $class Wrapper classes (escaped).
  */
 defined( 'ABSPATH' ) || exit;
@@ -18,8 +18,12 @@ defined( 'ABSPATH' ) || exit;
 			<div class="bv-row <?php echo esc_attr( $row['class'] ); ?>">
 				<dt><?php echo esc_html( $row['label'] ); ?></dt>
 				<dd>
-					<?php if ( $row['color'] ) : ?><span class="bv-swatch" style="background:<?php echo esc_attr( $row['color'] ); ?>"></span><?php endif; ?>
-					<?php echo esc_html( $row['value'] ); ?>
+					<?php if ( ! empty( $row['button'] ) ) : ?><?php echo $row['button']; // phpcs:ignore -- built and escaped in BV_Render::eu_button ?><?php endif; ?>
+					<span class="bv-row__value">
+						<?php if ( ! empty( $row['icon'] ) ) : ?><?php echo $row['icon']; // phpcs:ignore -- built and escaped in BV_Render::eu_icon ?><?php endif; ?>
+						<?php if ( $row['color'] ) : ?><span class="bv-swatch" style="background:<?php echo esc_attr( $row['color'] ); ?>"></span><?php endif; ?>
+						<?php echo esc_html( $row['value'] ); ?>
+					</span>
 				</dd>
 			</div>
 		<?php endforeach; ?>

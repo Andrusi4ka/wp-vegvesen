@@ -325,6 +325,7 @@ The EU inspection deadline has passed ([bv field="neste_eu"]).
 <tr><td><code>bv-if-empty</code></td><td>only before a search (no number in the address)</td></tr>
 <tr><td><code>bv-if-searched</code></td><td>after any search, found or not</td></tr>
 <tr><td><code>bv-scroll-target</code></td><td>not a visibility class: after a search the page scrolls to this element</td></tr>
+<tr><td><code>bv-print-area</code></td><td>not a visibility class: printing (the Print button or Ctrl+P) prints only the elements with this class; without it, only the vehicle card</td></tr>
 </tbody></table>
 <div class="tip"><strong>In the page builder</strong> all these elements stay visible, so you can always edit them. The classes work on the site.</div>',
 		'blocks' => '
@@ -335,12 +336,13 @@ The EU inspection deadline has passed ([bv field="neste_eu"]).
 <tr><td><code>[bv_search]</code></td><td>Search field. <code>layout="inline|hero|compact"</code>, <code>title</code>, <code>subtitle</code>, <code>image</code>, <code>placeholder</code>, <code>button</code>, <code>max_width</code>, <code>title_tag="h1"</code></td></tr>
 <tr><td><code>[bv_card]</code></td><td>The whole vehicle card. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (field lists), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
 <tr><td><code>[bv_tiles fields="…"]</code></td><td>Key figures with icons. <code>columns="4"</code></td></tr>
-<tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Table of fields. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Brand"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code></td></tr>
+<tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Table of fields. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Brand"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code>. The "Next EU inspection" row gets a status icon and, when the deadline is close or passed, a button; both are set in the element (WPBakery tab "EU inspection"), also on <code>[bv_card]</code>.</td></tr>
 <tr><td><code>[bv_plate]</code></td><td>Number plate. <code>size="small|large"</code></td></tr>
 <tr><td><code>[bv_status]</code></td><td>"Vehicle found" and the date. <code>found="your text"</code>, <code>updated="0"</code></td></tr>
 <tr><td><code>[bv_image]</code></td><td>A photo from the media library titled "Make Model" (e.g. "Volkswagen Passat") or "Make"; otherwise a body type silhouette in the vehicle\'s colour.</td></tr>
 <tr><td><code>[bv_logo size="64"]</code></td><td>Brand logo: a media library image titled "Make logo", otherwise the bundled logo.</td></tr>
 <tr><td><code>[bv_print]</code></td><td>Print button. <code>label="your text"</code></td></tr>
+<tr><td><code>[bv_eu_button]</code></td><td>The EU inspection button on its own, shown only when the deadline is close or passed. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registration number), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code>, <code>eu_icon="yes"</code>; with WoodMart also the Button style settings.</td></tr>
 </tbody></table>
 <h3>Field lists</h3>
 <p><code>fields</code>, <code>tiles</code>, <code>general</code>, <code>dates</code> and <code>miljo</code> take field keys separated by commas, in the order you want them:</p>
@@ -491,6 +493,7 @@ Fristen for EU-kontroll er passert ([bv field="neste_eu"]).
 <tr><td><code>bv-if-empty</code></td><td>bare før et søk (ingen nummer i adressen)</td></tr>
 <tr><td><code>bv-if-searched</code></td><td>etter ethvert søk, funnet eller ikke</td></tr>
 <tr><td><code>bv-scroll-target</code></td><td>ikke en synlighetsklasse: etter et søk ruller siden hit</td></tr>
+<tr><td><code>bv-print-area</code></td><td>ikke en synlighetsklasse: utskrift (Skriv ut-knappen eller Ctrl+P) skriver bare ut elementene med denne klassen; uten den bare kjøretøykortet</td></tr>
 </tbody></table>
 <div class="tip"><strong>I sidebyggeren</strong> er alle disse elementene synlige, så du alltid kan redigere dem. Klassene virker på nettstedet.</div>',
 		'blocks' => '
@@ -501,12 +504,13 @@ Fristen for EU-kontroll er passert ([bv field="neste_eu"]).
 <tr><td><code>[bv_search]</code></td><td>Søkefelt. <code>layout="inline|hero|compact"</code>, <code>title</code>, <code>subtitle</code>, <code>image</code>, <code>placeholder</code>, <code>button</code>, <code>max_width</code>, <code>title_tag="h1"</code></td></tr>
 <tr><td><code>[bv_card]</code></td><td>Hele kjøretøykortet. <code>tiles</code>, <code>general</code>, <code>dates</code>, <code>miljo</code> (feltlister), <code>print="0"</code>, <code>image="0"</code>, <code>logo="0"</code>, <code>title_tag="h2"</code>, <code>table_title_tag="h3"</code></td></tr>
 <tr><td><code>[bv_tiles fields="…"]</code></td><td>Nøkkeltall med ikoner. <code>columns="4"</code></td></tr>
-<tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Tabell med felt. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Bilmerke"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code></td></tr>
+<tr><td><code>[bv_table fields="…" title="…"]</code></td><td>Tabell med felt. <code>icon</code>, <code>highlight="neste_eu"</code>, <code>labels="merke:Bilmerke"</code>, <code>hide_empty="0"</code>, <code>title_tag="h3"</code>. Raden «Neste EU-kontroll» får statusikon og, når fristen nærmer seg eller er utløpt, en knapp; begge stilles inn i elementet (WPBakery-fanen «EU-kontroll»), også på <code>[bv_card]</code>.</td></tr>
 <tr><td><code>[bv_plate]</code></td><td>Skilt. <code>size="small|large"</code></td></tr>
 <tr><td><code>[bv_status]</code></td><td>«Kjøretøy funnet» og datoen. <code>found="din tekst"</code>, <code>updated="0"</code></td></tr>
 <tr><td><code>[bv_image]</code></td><td>Et bilde i mediebiblioteket med tittelen «Merke Modell» (f.eks. «Volkswagen Passat») eller «Merke»; ellers en silhuett av karosseritypen i kjøretøyets farge.</td></tr>
 <tr><td><code>[bv_logo size="64"]</code></td><td>Merkelogo: et bilde i mediebiblioteket med tittelen «Merke logo», ellers den medfølgende logoen.</td></tr>
 <tr><td><code>[bv_print]</code></td><td>Utskriftsknapp. <code>label="din tekst"</code></td></tr>
+<tr><td><code>[bv_eu_button]</code></td><td>Knappen for EU-kontroll alene, vises bare når fristen nærmer seg eller er utløpt. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registreringsnummer), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code>, <code>eu_icon="yes"</code>; med WoodMart også stilinnstillingene for Button.</td></tr>
 </tbody></table>
 <h3>Feltlister</h3>
 <p><code>fields</code>, <code>tiles</code>, <code>general</code>, <code>dates</code> og <code>miljo</code> tar feltnøkler skilt med komma, i den rekkefølgen du vil:</p>

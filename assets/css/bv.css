@@ -219,14 +219,54 @@
 	.bv-plate__text { font-size: 34px; padding: 0 16px 0 14px; }
 }
 
-/* ---------- Print ---------- */
+/* ---------- Print: only the vehicle information ----------
+ * bv.js copies the vehicle blocks (elements with .bv-print-area, else the vehicle card) into #bv-print-root
+ * before printing (button or Ctrl+P) and sets html.bv-printing; everything else on the page is hidden.
+ */
+#bv-print-root { display: none; }
 @media print {
-	.bv-vehicle-page header, .bv-vehicle-page footer, .bv-vehicle-page .whb-header, .bv-vehicle-page .footer-container,
-	.bv-vehicle-page .wd-toolbar, .bv-vehicle-page .scrollToTop, .bv-search, .bv-print, .bv-editor-note, #wpadminbar { display: none !important; }
-	.bv-card { border: 0; box-shadow: none; padding: 0; }
-	.bv-card__head header, .bv-card__head { display: flex !important; }
-	.bv-tile, .bv-panel, .bv-row--highlight { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-	.bv-panel, .bv-tiles { break-inside: avoid; }
+	html.bv-printing body > *:not(#bv-print-root) { display: none !important; }
+	html.bv-printing #bv-print-root { display: block !important; }
+	html.bv-printing, html.bv-printing body { margin: 0 !important; padding: 0 !important; background: #fff !important; min-height: 0 !important; height: auto !important; overflow: visible !important; }
+	#bv-print-root > * + * { margin-top: 16px; }
+	#bv-print-root .bv-print, #bv-print-root .bv-search, #bv-print-root .bv-eu-btn-wrap, #bv-print-root .bv-eu-btn { display: none !important; }
+	.bv-search, .bv-print, .bv-editor-note, #wpadminbar { display: none !important; }
+	.bv-card { border: 0; box-shadow: none; padding: 0; margin: 0; }
+	.bv-card__head { display: flex !important; }
+	.bv-tile, .bv-panel, .bv-row--highlight, .bv-plate, .bv-eu-icon, .bv-image { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	.bv-panel, .bv-tiles, .bv-card__hero { break-inside: avoid; }
+	@page { margin: 12mm; }
+
+	/* Compact desktop-like layout on paper (an A4 page is narrower than the tablet breakpoint). */
+	#bv-print-root .bv { font-size: 12px; }
+	#bv-print-root .bv-card__head { gap: 8px 24px; padding-bottom: 10px; margin-bottom: 12px; }
+	#bv-print-root .bv-plate { height: 46px; }
+	#bv-print-root .bv-plate__band { width: 30px; padding: 6px 0 5px; }
+	#bv-print-root .bv-plate__flag { width: 17px; }
+	#bv-print-root .bv-plate__country { font-size: 12px; }
+	#bv-print-root .bv-plate__text { font-size: 28px; padding: 0 14px 0 12px; }
+	#bv-print-root .bv-status__title { font-size: 15px; }
+	#bv-print-root .bv-status__meta { font-size: 11px; }
+	#bv-print-root .bv-card__hero { flex-direction: row; align-items: center; gap: 20px; margin-bottom: 12px; }
+	#bv-print-root .bv-card__hero .bv-image { flex: 0 0 190px; width: 190px; }
+	#bv-print-root .bv-image img { max-height: 110px; }
+	#bv-print-root .bv-card__name .bv-logo { --bv-logo-size: 36px !important; margin-bottom: 4px; }
+	#bv-print-root .bv-card__title { font-size: 22px; margin-bottom: 2px; }
+	#bv-print-root .bv-card__sub { font-size: 13px; }
+	#bv-print-root .bv-tiles { grid-template-columns: repeat(var(--bv-cols, 4), minmax(0, 1fr)); gap: 8px; }
+	#bv-print-root .bv-tile { padding: 8px 10px; gap: 8px; }
+	#bv-print-root .bv-tile__icon { width: 20px; height: 20px; }
+	#bv-print-root .bv-tile__label { font-size: 10.5px; }
+	#bv-print-root .bv-tile__value { font-size: 13px; }
+	#bv-print-root .bv-card__grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+	#bv-print-root .bv-card__col { gap: 10px; }
+	#bv-print-root .bv-panel { padding: 10px 12px 2px; }
+	#bv-print-root .bv-panel__title { font-size: 14px; padding-bottom: 8px; gap: 8px; }
+	#bv-print-root .bv-panel__title .bv-icon { width: 18px; height: 18px; }
+	#bv-print-root .bv-row { padding: 5px 0; font-size: 12px; }
+	#bv-print-root .bv-row--highlight { margin: 2px -6px; padding: 5px 6px; }
+	#bv-print-root .bv-swatch { width: 14px; height: 14px; }
+	#bv-print-root .bv-eu-icon .bv-icon { width: 15px; height: 15px; }
 }
 
 /* ---------- Compact search (header, sidebar) ---------- */
@@ -255,3 +295,33 @@
 .bv-search__message .bv-icon { width: 22px; height: 22px; color: var(--bv-warning); }
 .bv-search__message--feil { border-left-color: var(--bv-danger); }
 .bv-search__message--feil .bv-icon { color: var(--bv-danger); }
+
+/* ---------- EU inspection: status icon and button (left of the date) ---------- */
+.bv-eu-icon { display: inline-flex; flex: none; line-height: 0; }
+.bv-eu-icon .bv-icon { width: 20px; height: 20px; }
+.bv-eu-icon--ok { color: var(--bv-success); }
+.bv-eu-icon--snart { color: var(--bv-warning); }
+.bv-eu-icon--utlopt { color: var(--bv-danger); }
+.bv .bv-row--neste_eu dd { flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
+.bv-row__value { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.bv .bv-eu-btn--simple {
+	border: 0; font-family: inherit; cursor: pointer;
+	display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; margin: 0;
+	border-radius: var(--bv-btn-radius); background: var(--bv-primary); color: var(--bv-primary-contrast);
+	font-size: 14px; font-weight: 600; line-height: 1.2; text-decoration: none; white-space: nowrap; transition: background-color .15s;
+}
+.bv .bv-eu-btn--simple:hover, .bv .bv-eu-btn--simple:focus { background: var(--bv-primary); filter: brightness(.9); color: var(--bv-primary-contrast); text-decoration: none; }
+@supports (color: color-mix(in srgb, red, blue)) {
+	.bv .bv-eu-btn--simple:hover, .bv .bv-eu-btn--simple:focus { background: var(--bv-primary-hover); filter: none; }
+}
+.bv .bv-eu-btn--simple:focus-visible { outline: 2px solid var(--bv-primary); outline-offset: 2px; }
+.bv-eu { display: inline-flex; align-items: center; gap: 10px; }
+@media print { .bv-eu-btn, .bv-eu-btn-wrap { display: none !important; } }
+
+/* EU button from the theme (WoodMart): no wrapper margins/padding, centred in the row. */
+.bv-eu-btn-wrap { display: inline-flex; align-items: center; flex: none; line-height: 1; }
+.bv .bv-eu-btn-wrap .wd-button-wrapper { display: inline-flex !important; align-items: center; margin: 0 !important; padding: 0 !important; }
+.bv .bv-eu-btn-wrap .btn { margin: 0; vertical-align: middle; }
+.bv .bv-row--neste_eu dd { align-items: center; }
+/* A button without a link (for scripts) still shows a pointer. */
+.bv .bv-eu-btn:not([href]) { cursor: pointer; }

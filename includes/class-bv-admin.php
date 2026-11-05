@@ -332,9 +332,24 @@ class BV_Admin {
 							<td><input type="text" id="bv_color" name="<?php echo esc_attr( $name ); ?>[primary_color]" value="<?php echo esc_attr( $s['primary_color'] ); ?>" class="bv-color code">
 								<p class="description"><?php echo wp_kses( __( 'Empty uses the theme\'s primary colour (WoodMart: Theme Settings → Colors). Or enter your own, e.g. <code>#0b6e3a</code>.', 'bruktdeler-vegvesen' ), $code ); ?></p></td>
 						</tr>
+					</table>
+				</section>
+
+				<section class="bv-box">
+					<header class="bv-box__head">
+						<h2><?php esc_html_e( 'EU inspection', 'bruktdeler-vegvesen' ); ?></h2>
+						<p><?php esc_html_e( 'When the "Next EU inspection" row warns. The status icon and the button are set in the elements (tab "EU inspection").', 'bruktdeler-vegvesen' ); ?></p>
+					</header>
+					<table class="form-table" role="presentation">
 						<tr>
 							<th scope="row"><label for="bv_warn"><?php esc_html_e( 'Inspection warning', 'bruktdeler-vegvesen' ); ?></label></th>
-							<td><input type="number" min="0" id="bv_warn" name="<?php echo esc_attr( $name ); ?>[eu_warn_days]" value="<?php echo esc_attr( $s['eu_warn_days'] ); ?>" class="small-text"> <?php esc_html_e( 'days before the deadline – the row turns yellow', 'bruktdeler-vegvesen' ); ?></td>
+							<td><input type="number" min="0" id="bv_warn" name="<?php echo esc_attr( $name ); ?>[eu_warn_days]" value="<?php echo esc_attr( $s['eu_warn_days'] ); ?>" class="small-text"> <?php esc_html_e( 'days before the deadline – the row turns yellow', 'bruktdeler-vegvesen' ); ?>
+								<p class="description bv-eu-legend">
+									<?php echo BV_Render::eu_icon( 'ok' ); // phpcs:ignore ?> <?php esc_html_e( 'approved', 'bruktdeler-vegvesen' ); ?>
+									&nbsp; <?php echo BV_Render::eu_icon( 'snart' ); // phpcs:ignore ?> <?php esc_html_e( 'deadline is close', 'bruktdeler-vegvesen' ); ?>
+									&nbsp; <?php echo BV_Render::eu_icon( 'utlopt' ); // phpcs:ignore ?> <?php esc_html_e( 'overdue', 'bruktdeler-vegvesen' ); ?>
+								</p>
+							</td>
 						</tr>
 					</table>
 				</section>
@@ -437,6 +452,8 @@ class BV_Admin {
 			.bv-overview__value::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #00a32a; }
 			.bv-overview__value--warn::before { background: #dba617; }
 			.bv-box { margin: 0 0 16px; background: #fff; border: 1px solid #c3c4c7; }
+			.bv-eu-legend .bv-eu-icon svg { width: 18px; height: 18px; vertical-align: -4px; }
+			.bv-eu-icon--ok { color: #1e8a4c; } .bv-eu-icon--snart { color: #b7791f; } .bv-eu-icon--utlopt { color: #c53030; }
 			.bv-box__head { padding: 14px 20px 12px; border-bottom: 1px solid #f0f0f1; }
 			.bv-box__head h2 { margin: 0; font-size: 15px; }
 			.bv-box__head p { margin: 2px 0 0; color: #646970; font-size: 11px; }
@@ -590,6 +607,7 @@ class BV_Admin {
 				<tr><td><code class="bv-copy">bv-if-empty</code></td><td><?php esc_html_e( 'visible only before a search (no number in the address)', 'bruktdeler-vegvesen' ); ?></td></tr>
 				<tr><td><code class="bv-copy">bv-if-searched</code></td><td><?php esc_html_e( 'visible after any search, found or not', 'bruktdeler-vegvesen' ); ?></td></tr>
 				<tr><td><code class="bv-copy">bv-scroll-target</code></td><td><?php esc_html_e( 'after a search the page scrolls to this element (see Settings → After a search)', 'bruktdeler-vegvesen' ); ?></td></tr>
+				<tr><td><code class="bv-copy">bv-print-area</code></td><td><?php esc_html_e( 'printing (the Print button or Ctrl+P) prints only the elements with this class; without it, only the vehicle card', 'bruktdeler-vegvesen' ); ?></td></tr>
 			</tbody></table>
 			<p class="description"><?php esc_html_e( 'In the WPBakery front-end editor all elements stay visible, so they can be edited.', 'bruktdeler-vegvesen' ); ?></p>
 

@@ -41,7 +41,7 @@ $bv_tag = BV_Render::title_tag( $a['title_tag'] ?? '', 'h2' );
 			<?php echo do_shortcode( '[bv_table title="' . esc_attr__( 'General information', 'bruktdeler-vegvesen' ) . '" icon="info" fields="' . esc_attr( $a['general'] ) . '"' . $t . $r . ']' ); // phpcs:ignore ?>
 		</div>
 		<div class="bv-card__col">
-			<?php echo do_shortcode( '[bv_table title="' . esc_attr__( 'Important dates', 'bruktdeler-vegvesen' ) . '" icon="calendar" highlight="neste_eu" fields="' . esc_attr( $a['dates'] ) . '"' . $t . $r . ']' ); // phpcs:ignore ?>
+			<?php echo do_shortcode( '[bv_table title="' . esc_attr__( 'Important dates', 'bruktdeler-vegvesen' ) . '" icon="calendar" highlight="neste_eu" fields="' . esc_attr( $a['dates'] ) . '"' . $t . $r . BV_Shortcodes::eu_atts_string( $a ) . ']' ); // phpcs:ignore ?>
 			<?php echo do_shortcode( '[bv_table title="' . esc_attr__( 'Environment and consumption', 'bruktdeler-vegvesen' ) . '" icon="leaf" fields="' . esc_attr( $a['miljo'] ) . '"' . $t . $r . ']' ); // phpcs:ignore ?>
 		</div>
 	</div>

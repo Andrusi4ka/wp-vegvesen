@@ -16,6 +16,41 @@ class BV_Shortcodes {
 	const TABLE_DATES    = 'registrert_forste,sist_eu,neste_eu';
 	const TABLE_MILJO    = 'co2,forbruk,el_forbruk,rekkevidde,euroklasse';
 
+	/**
+	 * EU inspection options of [bv_table], [bv_card] and [bv_eu_button] (WPBakery tab "EU inspection"):
+	 * eu_icon (yes = icon left of the date), eu_show ("snart,utlopt", "utlopt", "snart", "none"),
+	 * eu_btn_title, eu_btn_link ({regnr} allowed), eu_btn_custom_attributes, eu_btn_class and the
+	 * WoodMart button style settings eu_btn_* — plus woodmart_css_id, which the theme uses for the CSS.
+	 * All attributes starting with "eu_" are kept, so new button settings need no code here.
+	 */
+	public static function eu_atts( $atts ) {
+		$out = array();
+		foreach ( (array) $atts as $k => $v ) {
+			if ( is_string( $k ) && ( 0 === strpos( $k, 'eu_' ) || 'woodmart_css_id' === $k ) ) {
+				$out[ $k ] = (string) $v;
+			}
+		}
+		return $out;
+	}
+
+	/** Is the status icon on? Default yes; the WPBakery checkbox sends "" when it is unticked. */
+	public static function eu_icon_on( $a, $default = true ) {
+		if ( ! array_key_exists( 'eu_icon', $a ) ) {
+			return $default;
+		}
+		return in_array( strtolower( (string) $a['eu_icon'] ), array( 'yes', '1', 'true', 'on' ), true );
+	}
+
+	/** The EU options as shortcode attributes, to pass them on from the card to its table. */
+	public static function eu_atts_string( $a ) {
+		$out = '';
+		foreach ( self::eu_atts( $a ) as $k => $v ) {
+			// Square brackets would end the shortcode early.
+			$out .= ' ' . $k . '="' . esc_attr( str_replace( array( '[', ']' ), '', $v ) ) . '"';
+		}
+		return $out;
+	}
+
 	public static function init() {
 		$map = array(
 			'bv'        => 'field',
@@ -27,6 +62,7 @@ class BV_Shortcodes {
 			'bv_print'  => 'print',
 			'bv_image'  => 'image',
 			'bv_logo'   => 'logo',
+			'bv_eu_button' => 'eu_button',
 			'bv_table'  => 'table',
 			'bv_tiles'  => 'tiles',
 			'bv_card'   => 'card',
@@ -284,12 +320,34 @@ class BV_Shortcodes {
 		) );
 	}
 
+	/*
+	 * [bv_eu_button eu_btn_title="Bestill EU-kontroll" eu_btn_link="/kontakt/?regnr={regnr}" eu_btn_class="open-contact" eu_show="snart,utlopt" eu_icon="yes"]
+	 * The EU inspection button on its own (see eu_atts() for all settings).
+	 * Outputs nothing when the deadline is fine or no link is set.
+	 */
+	public static function eu_button( $atts ) {
+		$a  = shortcode_atts( array( 'regnr' => '', 'el_class' => '', 'css' => '' ), $atts, 'bv_eu_button' );
+		$eu = self::eu_atts( $atts );
+		$l  = self::lookup( $a );
+		if ( ! self::found( $l ) ) {
+			return '';
+		}
+		$button = BV_Render::eu_button( $l, $eu );
+		if ( '' === $button ) {
+			return '';
+		}
+		wp_enqueue_style( 'bv' );
+		$icon = self::eu_icon_on( $eu, false ) ? BV_Render::eu_icon( $l['data']['eu_status'] ?? '' ) : '';
+		return '<span class="' . BV_Render::classes( 'bv bv-eu', $a ) . '">' . $button . $icon . '</span>';
+	}
+
 	/* [bv_table fields="merke,modell" title="Generell informasjon" icon="info" highlight="neste_eu" labels="merke:Bilmerke"] */
 	public static function table( $atts ) {
 		$a = shortcode_atts( array(
 			'fields' => self::TABLE_GENERAL, 'title' => '', 'icon' => '', 'highlight' => '', 'labels' => '',
 			'title_tag' => 'h3', 'hide_empty' => '1', 'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_table' );
+		$eu = self::eu_atts( $atts );
 		$a['title_tag'] = BV_Render::title_tag( $a['title_tag'], 'h3' );
 		$l = self::lookup( $a );
 		if ( ! self::found( $l ) ) {
@@ -319,6 +377,11 @@ class BV_Shortcodes {
 			);
 			if ( $key === $a['highlight'] ) {
 				$row['class'] .= ' bv-row--highlight' . ( 'neste_eu' === $key && ! empty( $l['data']['eu_status'] ) ? ' bv-row--' . $l['data']['eu_status'] : '' );
+			}
+			// Next EU inspection: status icon and (when the deadline is close/passed) a button, left of the date.
+			if ( 'neste_eu' === $key && ! empty( $l['data']['eu_status'] ) ) {
+				$row['icon']   = self::eu_icon_on( $eu ) ? BV_Render::eu_icon( $l['data']['eu_status'] ) : '';
+				$row['button'] = BV_Render::eu_button( $l, $eu );
 			}
 			$rows[] = $row;
 		}
@@ -364,6 +427,8 @@ class BV_Shortcodes {
 			'print' => '1', 'image' => '1', 'logo' => '1', 'title_tag' => 'h2', 'table_title_tag' => 'h3',
 			'regnr' => '', 'el_class' => '', 'css' => '',
 		), $atts, 'bv_card' );
+		// EU inspection settings (tab "EU inspection") are passed on to the dates table.
+		$a = array_merge( $a, self::eu_atts( $atts ) );
 		$a['title_tag']       = BV_Render::title_tag( $a['title_tag'], 'h2' );
 		$a['table_title_tag'] = BV_Render::title_tag( $a['table_title_tag'], 'h3' );
 		$l = self::lookup( $a );

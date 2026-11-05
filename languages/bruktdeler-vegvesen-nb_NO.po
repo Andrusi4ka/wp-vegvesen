@@ -1375,3 +1375,84 @@ msgstr "Alle versjoner"
 #: includes\class-bv-whats-new.php
 msgid "Got it"
 msgstr "Skjønner"
+
+msgid "Status icon"
+msgstr "Statusikon"
+
+msgid "Show an icon to the left of the date"
+msgstr "Vis et ikon til venstre for datoen"
+
+msgid "approved"
+msgstr "godkjent"
+
+msgid "deadline is close"
+msgstr "fristen nærmer seg"
+
+msgid "overdue"
+msgstr "fristen er utløpt"
+
+msgid "Contact us"
+msgstr "Kontakt oss"
+
+msgid "Show the button"
+msgstr "Vis knappen"
+
+msgid "EU inspection button"
+msgstr "Knapp for EU-kontroll"
+
+msgid "Shown only when the inspection deadline is close or passed"
+msgstr "Vises bare når fristen for EU-kontroll nærmer seg eller er utløpt"
+
+msgid "When close or overdue"
+msgstr "Når fristen nærmer seg eller er utløpt"
+
+msgid "Only when overdue"
+msgstr "Bare når fristen er utløpt"
+
+msgid "Only when the deadline is close"
+msgstr "Bare når fristen nærmer seg"
+
+msgid "Check, warning or cross to the left of the date."
+msgstr "Hake, varseltegn eller kryss til venstre for datoen."
+
+msgid "Button"
+msgstr "Knapp"
+
+msgid "When the \"Next EU inspection\" row warns. The status icon and the button are set in the elements (tab \"EU inspection\")."
+msgstr "Når raden «Neste EU-kontroll» varsler. Statusikonet og knappen stilles inn i elementene (fanen «EU-kontroll»)."
+
+msgid "Show an icon next to the button"
+msgstr "Vis et ikon ved siden av knappen"
+
+msgid "Never"
+msgstr "Aldri"
+
+msgid "Button CSS class"
+msgstr "CSS-klasse for knappen"
+
+msgid "Added to the button itself, e.g. to open a popup or run a script on click."
+msgstr "Legges på selve knappen, f.eks. for å åpne en popup eller kjøre et skript ved klikk."
+
+msgid "{regnr} in the link is replaced with the registration number, e.g. /kontakt/?regnr={regnr}"
+msgstr "{regnr} i lenken erstattes med registreringsnummeret, f.eks. /kontakt/?regnr={regnr}"
+
+msgid "Button style"
+msgstr "Knappestil"
+
+msgid "Link"
+msgstr "Lenke"
+
+msgid "Custom attributes"
+msgstr "Egne attributter"
+
+msgid "key|value pairs separated by commas, e.g. data-popup|contact"
+msgstr "nøkkel|verdi-par skilt med komma, f.eks. data-popup|kontakt"
+
+msgid "printing (the Print button or Ctrl+P) prints only the elements with this class; without it, only the vehicle card"
+msgstr "utskrift (Skriv ut-knappen eller Ctrl+P) skriver bare ut elementene med denne klassen; uten den bare kjøretøykortet"
+
+msgid "The button appears to the left of the status icon. Without a link it is a button for scripts: give it a CSS class (the registration number is in data-regnr)."
+msgstr "Knappen vises til venstre for statusikonet. Uten lenke er den en knapp for skript: gi den en CSS-klasse (registreringsnummeret ligger i data-regnr)."
+
+msgid "The button appears to the left of the status icon, only if a link is set."
+msgstr "Knappen vises til venstre for statusikonet, bare hvis en lenke er satt."

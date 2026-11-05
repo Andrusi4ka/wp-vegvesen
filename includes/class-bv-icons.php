@@ -18,6 +18,7 @@ class BV_Icons {
 		'leaf'     => '<path d="M11 20A7 7 0 0 1 4 13c0-6 6-9 16-9 0 10-3 16-9 16z"/><path d="M4 21c3-6 7-9 11-11"/>',
 		'weight'   => '<circle cx="12" cy="5" r="2.5"/><path d="M6.5 8h11l2.5 13H4z"/>',
 		'seat'     => '<path d="M7 3h4l1 9h6l1 6h-3M7 3l1 15h8"/>',
+		'circle-x' => '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
 		'gear'     => '<circle cx="6" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v10M12 7v10M18 7v5H6"/>',
 	);
 
@@ -54,7 +55,7 @@ class BV_Icons {
 			__( 'Engine and energy', 'bruktdeler-vegvesen' )  => array( 'engine', 'fuel', 'gauge', 'gear', 'cog', 'settings', 'cylinder', 'battery', 'battery-charging', 'plug-zap', 'zap', 'thermometer', 'droplet', 'droplets', 'wind', 'snowflake', 'sun', 'leaf' ),
 			__( 'Dates and time', 'bruktdeler-vegvesen' )     => array( 'calendar', 'calendar-check', 'calendar-clock', 'clock', 'timer', 'history' ),
 			__( 'Size and weight', 'bruktdeler-vegvesen' )    => array( 'weight', 'scale', 'ruler', 'move-horizontal', 'move-vertical', 'package', 'container' ),
-			__( 'Status', 'bruktdeler-vegvesen' )             => array( 'check', 'circle-check', 'badge-check', 'shield-check', 'clipboard-check', 'alert', 'triangle-alert', 'info' ),
+			__( 'Status', 'bruktdeler-vegvesen' )             => array( 'check', 'circle-check', 'badge-check', 'shield-check', 'clipboard-check', 'alert', 'triangle-alert', 'circle-x', 'info' ),
 		);
 		$listed = array();
 		foreach ( $groups as $label => $names ) {

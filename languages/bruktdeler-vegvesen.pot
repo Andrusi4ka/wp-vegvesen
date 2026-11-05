@@ -1373,3 +1373,84 @@ msgstr ""
 #: includes\class-bv-whats-new.php
 msgid "Got it"
 msgstr ""
+
+msgid "Status icon"
+msgstr ""
+
+msgid "Show an icon to the left of the date"
+msgstr ""
+
+msgid "approved"
+msgstr ""
+
+msgid "deadline is close"
+msgstr ""
+
+msgid "overdue"
+msgstr ""
+
+msgid "Contact us"
+msgstr ""
+
+msgid "Show the button"
+msgstr ""
+
+msgid "EU inspection button"
+msgstr ""
+
+msgid "Shown only when the inspection deadline is close or passed"
+msgstr ""
+
+msgid "When close or overdue"
+msgstr ""
+
+msgid "Only when overdue"
+msgstr ""
+
+msgid "Only when the deadline is close"
+msgstr ""
+
+msgid "Check, warning or cross to the left of the date."
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "When the \"Next EU inspection\" row warns. The status icon and the button are set in the elements (tab \"EU inspection\")."
+msgstr ""
+
+msgid "Show an icon next to the button"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Button CSS class"
+msgstr ""
+
+msgid "Added to the button itself, e.g. to open a popup or run a script on click."
+msgstr ""
+
+msgid "{regnr} in the link is replaced with the registration number, e.g. /kontakt/?regnr={regnr}"
+msgstr ""
+
+msgid "Button style"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Custom attributes"
+msgstr ""
+
+msgid "key|value pairs separated by commas, e.g. data-popup|contact"
+msgstr ""
+
+msgid "printing (the Print button or Ctrl+P) prints only the elements with this class; without it, only the vehicle card"
+msgstr ""
+
+msgid "The button appears to the left of the status icon. Without a link it is a button for scripts: give it a CSS class (the registration number is in data-regnr)."
+msgstr ""
+
+msgid "The button appears to the left of the status icon, only if a link is set."
+msgstr ""
