@@ -1458,5 +1458,8 @@ msgstr ""
 msgid "\"Vehicle not found\" or an error in place of the card. Turn it off when the search field already shows the message."
 msgstr ""
 
+msgid "Always"
+msgstr ""
+
 msgid "The button appears to the left of the status icon, only if a link is set."
 msgstr ""

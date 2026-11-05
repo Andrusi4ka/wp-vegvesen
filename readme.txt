@@ -3,7 +3,7 @@ Tags: vegvesen, vehicle, registration number, car parts, wpbakery
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Vegvesen has no photos. Upload a photo to the media library and give it the titl
 Yes. Put an SVG file in `wp-content/uploads/bv-bodies/`, named after the body type (`sedan.svg`, `hatchback.svg`, `estate.svg`, `coupe.svg`, `convertible.svg`, `mpv.svg`, `pickup.svg`, `pickup-double.svg`, `van.svg`, `truck.svg`, `tractor.svg`, `bus.svg`, `camper.svg`, `trailer.svg`). It replaces the bundled one and survives plugin updates.
 
 == Changelog ==
+
+= 1.5.2 =
+* EU button: new choice "Always" under "Show the button" – the button is also shown when the inspection is fine (`eu_show="always"`).
 
 = 1.5.1 =
 * Vehicle card: "Message when nothing is found" can be turned off (`notice="0"`), e.g. when the search field already shows it.

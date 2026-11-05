@@ -214,6 +214,7 @@ class BV_WPBakery {
 				'param_name'  => 'eu_show',
 				'value'       => array(
 					__( 'When close or overdue', 'bruktdeler-vegvesen' )           => 'snart,utlopt',
+					__( 'Always', 'bruktdeler-vegvesen' )                          => 'always',
 					__( 'Only when overdue', 'bruktdeler-vegvesen' )               => 'utlopt',
 					__( 'Only when the deadline is close', 'bruktdeler-vegvesen' ) => 'snart',
 					__( 'Never', 'bruktdeler-vegvesen' )                           => 'none',

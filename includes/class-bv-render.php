@@ -131,7 +131,7 @@ class BV_Render {
 	 * Button next to the EU inspection date (e.g. a link to a contact form). Configured in the element
 	 * (tab "EU inspection"): eu_show, eu_btn_title, eu_btn_link, eu_btn_custom_attributes, eu_btn_class
 	 * and the WoodMart style settings eu_btn_style, eu_btn_shape, eu_btn_size, eu_btn_color…
-	 * Outputs nothing when the deadline is fine (or not in eu_show). Without a link it is still shown and
+	 * Outputs nothing when the status is not in eu_show ("always" = every status). Without a link it is still shown and
 	 * works as a button for scripts (role="button", reachable with the keyboard) – e.g. via its CSS class.
 	 *
 	 * @param array $lookup Lookup result.
@@ -140,8 +140,12 @@ class BV_Render {
 	public static function eu_button( $lookup, $a = array() ) {
 		$status = $lookup['data']['eu_status'] ?? '';
 		$show   = isset( $a['eu_show'] ) && '' !== $a['eu_show'] ? (string) $a['eu_show'] : 'snart,utlopt';
-		if ( ! in_array( $status, array_map( 'trim', explode( ',', $show ) ), true ) ) {
+		// "always": also when the inspection is fine (or the vehicle has no deadline).
+		if ( 'always' !== trim( $show ) && ! in_array( $status, array_map( 'trim', explode( ',', $show ) ), true ) ) {
 			return '';
+		}
+		if ( '' === $status ) {
+			$status = 'none';
 		}
 		$link    = self::parse_link( (string) ( $a['eu_btn_link'] ?? '' ) );
 		$no_link = '' === $link['url'];

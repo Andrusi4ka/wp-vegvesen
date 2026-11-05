@@ -342,7 +342,7 @@ The EU inspection deadline has passed ([bv field="neste_eu"]).
 <tr><td><code>[bv_image]</code></td><td>A photo from the media library titled "Make Model" (e.g. "Volkswagen Passat") or "Make"; otherwise a body type silhouette in the vehicle\'s colour.</td></tr>
 <tr><td><code>[bv_logo size="64"]</code></td><td>Brand logo: a media library image titled "Make logo", otherwise the bundled logo.</td></tr>
 <tr><td><code>[bv_print]</code></td><td>Print button. <code>label="your text"</code></td></tr>
-<tr><td><code>[bv_eu_button]</code></td><td>The EU inspection button on its own, shown only when the deadline is close or passed. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registration number), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code>, <code>eu_icon="yes"</code>; with WoodMart also the Button style settings.</td></tr>
+<tr><td><code>[bv_eu_button]</code></td><td>The EU inspection button on its own, by default shown when the deadline is close or passed. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registration number), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code> (or <code>always</code>, <code>utlopt</code>, <code>snart</code>, <code>none</code>), <code>eu_icon="yes"</code>; with WoodMart also the Button style settings.</td></tr>
 </tbody></table>
 <h3>Field lists</h3>
 <p><code>fields</code>, <code>tiles</code>, <code>general</code>, <code>dates</code> and <code>miljo</code> take field keys separated by commas, in the order you want them:</p>
@@ -510,7 +510,7 @@ Fristen for EU-kontroll er passert ([bv field="neste_eu"]).
 <tr><td><code>[bv_image]</code></td><td>Et bilde i mediebiblioteket med tittelen «Merke Modell» (f.eks. «Volkswagen Passat») eller «Merke»; ellers en silhuett av karosseritypen i kjøretøyets farge.</td></tr>
 <tr><td><code>[bv_logo size="64"]</code></td><td>Merkelogo: et bilde i mediebiblioteket med tittelen «Merke logo», ellers den medfølgende logoen.</td></tr>
 <tr><td><code>[bv_print]</code></td><td>Utskriftsknapp. <code>label="din tekst"</code></td></tr>
-<tr><td><code>[bv_eu_button]</code></td><td>Knappen for EU-kontroll alene, vises bare når fristen nærmer seg eller er utløpt. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registreringsnummer), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code>, <code>eu_icon="yes"</code>; med WoodMart også stilinnstillingene for Button.</td></tr>
+<tr><td><code>[bv_eu_button]</code></td><td>Knappen for EU-kontroll alene, vises som standard når fristen nærmer seg eller er utløpt. <code>eu_btn_title</code>, <code>eu_btn_link</code> (<code>{regnr}</code> = registreringsnummer), <code>eu_btn_class</code>, <code>eu_btn_custom_attributes</code>, <code>eu_show="snart,utlopt"</code> (eller <code>always</code>, <code>utlopt</code>, <code>snart</code>, <code>none</code>), <code>eu_icon="yes"</code>; med WoodMart også stilinnstillingene for Button.</td></tr>
 </tbody></table>
 <h3>Feltlister</h3>
 <p><code>fields</code>, <code>tiles</code>, <code>general</code>, <code>dates</code> og <code>miljo</code> tar feltnøkler skilt med komma, i den rekkefølgen du vil:</p>

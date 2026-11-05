@@ -1460,5 +1460,8 @@ msgstr "Melding når ingenting er funnet"
 msgid "\"Vehicle not found\" or an error in place of the card. Turn it off when the search field already shows the message."
 msgstr "«Fant ikke kjøretøyet» eller en feil i stedet for kortet. Slå den av når søkefeltet allerede viser meldingen."
 
+msgid "Always"
+msgstr "Alltid"
+
 msgid "The button appears to the left of the status icon, only if a link is set."
 msgstr "Knappen vises til venstre for statusikonet, bare hvis en lenke er satt."

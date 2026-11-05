@@ -3,7 +3,7 @@
  * Plugin Name:       WP Vegvesen
  * Plugin URI:        https://github.com/Andrusi4ka/wp-vegvesen
  * Description:       Vehicle lookup in Statens vegvesen by registration number or VIN. Provides variables (shortcodes and tokens), ready-made blocks and WPBakery elements that follow the theme's styling.
- * Version:           1.5.1
+ * Version:           1.5.2
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Relevant AS
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BV_VERSION', '1.5.1' );
+define( 'BV_VERSION', '1.5.2' );
 define( 'BV_REPOSITORY', 'https://github.com/Andrusi4ka/wp-vegvesen/' );
 define( 'BV_FILE', __FILE__ );
 define( 'BV_DIR', plugin_dir_path( __FILE__ ) );
